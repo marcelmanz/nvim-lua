@@ -6,7 +6,9 @@ return {
 	keys = {
 		{
 			"ff",
-			"<cmd>lua require('conform').format()<cr>",
+			function()
+				require("conform").format()
+			end,
 			desc = "Format buffer",
 		},
 	},

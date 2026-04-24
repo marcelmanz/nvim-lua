@@ -10,6 +10,7 @@ return {
 	"akinsho/git-conflict.nvim",
 	version = "*",
 	lazy = false,
+	enabled = false,
 	dependencies = {
 		"echasnovski/mini.nvim",
 	},
