@@ -1,5 +1,5 @@
 return {
-	"themarcel/conflict.nvim",
+	"niekdomi/conflict.nvim",
 	config = function()
 		require("conflict").setup {}
 	end,

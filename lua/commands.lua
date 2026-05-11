@@ -113,6 +113,16 @@ local print_harpoon_help = function()
 	vim.keymap.set("n", "q", ":q<CR>", { buffer = buf })
 end
 
+vim.api.nvim_create_user_command("CopyRelPath", function()
+	local rel_path = vim.fn.expand "%:."
+	if rel_path == "" then
+		vim.notify("No file in current buffer", vim.log.levels.WARN)
+		return
+	end
+	vim.fn.setreg("+", rel_path)
+	vim.notify("Copied: " .. rel_path, vim.log.levels.INFO)
+end, { desc = "Copy relative path of current buffer to clipboard" })
+
 vim.api.nvim_create_user_command("UUIDGEN", function()
 	local uuid = vim.fn.system("uuidgen"):gsub("\n", "")
 	vim.api.nvim_put({ uuid }, "", true, true)

@@ -458,21 +458,27 @@ vim.keymap.set(
 
 -- Absolute path to system clipboard
 vim.keymap.set("n", "<leader>ya", function()
-	vim.fn.setreg("+", vim.fn.expand "%:p")
-	print "Copied absolute path"
-end)
+	local abs_path = vim.fn.expand "%:p"
+	if abs_path == "" then
+		vim.notify("No file in current buffer", vim.log.levels.WARN)
+		return
+	end
+	vim.fn.setreg("+", abs_path)
+	vim.notify("Copied: " .. abs_path, vim.log.levels.INFO)
+end, { desc = "Copy absolute path to clipboard" })
+
 -- Relative path to system clipboard
-vim.keymap.set("n", "<leader>yp", function()
-	vim.fn.setreg("+", vim.fn.expand "%:~:.")
-	print "Copied relative path"
-end)
+vim.keymap.set(
+	"n",
+	"<leader>yr",
+	"<cmd>CopyRelPath<CR>",
+	{ desc = "Copy relative path to clipboard" }
+)
 
 -- Markdown preview
 vim.keymap.set("n", "<leader>mw", function()
 	vim.cmd "MdWatch"
 end)
-
--- Relative path
 
 -- Buffer navigation
 vim.keymap.set("n", "<leader>bn", "<cmd>bnext<CR>", { desc = "Next buffer" })

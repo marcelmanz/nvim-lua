@@ -23,7 +23,7 @@ return {
 	-- 	lazy = true, -- Changed to lazy load
 	-- 	priority = 1000,
 	-- },
-	-- "Verf/deepwhite.nvim",
+	"Verf/deepwhite.nvim",
 	-- "aliqyan-21/darkvoid.nvim",
 	-- "slugbyte/lackluster.nvim",
 	-- "mrjones2014/lighthaus.nvim",
