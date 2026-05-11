@@ -30,6 +30,7 @@ return {
 		"echasnovski/mini.snippets",
 		-- { "rafamadriz/friendly-snippets", lazy = true },
 		-- LuaSnip moved to optional - only load if using full profile
+		"mgalliou/blink-cmp-tmux",
 	},
 
 	-- use a release tag to download pre-built binaries
@@ -94,8 +95,16 @@ return {
 				-- "copilot",
 				"path",
 				"buffer",
+				"tmux",
 			},
 			providers = {
+				tmux = {
+					name = "tmux",
+					module = "blink-cmp-tmux",
+					opts = {
+						all_panes = true,
+					},
+				},
 				snippets = {
 					min_keyword_length = 2,
 					score_offset = 4,

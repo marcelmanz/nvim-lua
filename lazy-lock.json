@@ -1,6 +1,7 @@
 {
   "auto-session": { "branch": "main", "commit": "daa7c996a0395e26342934843938647d0f1e87f4" },
   "blame.nvim": { "branch": "main", "commit": "179da7aaacce7c52874af636255ede72dd6fe796" },
+  "blink-cmp-tmux": { "branch": "main", "commit": "1ef35d8e388475ab8eaeecfc12e196c78bd5de04" },
   "blink.cmp": { "branch": "main", "commit": "78336bc89ee5365633bcf754d93df01678b5c08f" },
   "conflict.nvim": { "branch": "main", "commit": "fdc879c34c528aab90e1b90c5d408d141f31fef8" },
   "conform.nvim": { "branch": "master", "commit": "dca1a190aa85f9065979ef35802fb77131911106" },
