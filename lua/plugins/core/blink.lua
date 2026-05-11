@@ -81,6 +81,15 @@ return {
 					auto_insert = true,
 				},
 			},
+			menu = {
+				draw = {
+					columns = {
+						{ "label", "label_description", gap = 1 },
+						{ "kind_icon", gap = 1 },
+						{ "source_name" },
+					},
+				},
+			},
 		},
 
 		snippets = { preset = "mini_snippets" },
