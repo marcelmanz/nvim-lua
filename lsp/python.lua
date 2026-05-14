@@ -50,6 +50,10 @@ return {
 				-- Auto-imports
 				rope_autoimport = { enabled = true },
 				jedi_completion = { eager = true },
+				pycodestyle = {
+					ignore = { "W391" },
+					maxLineLength = 100,
+				},
 			},
 		},
 	},
