@@ -20,7 +20,9 @@ local on_attach = function(client, bufnr)
 	end
 
 	nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
-	nmap("<leader>a", vim.lsp.buf.code_action, "[C]ode [A]ction")
+	nmap("<leader>a", function()
+		require("fzf-lua").lsp_code_actions()
+	end, "[C]ode [A]ction")
 
 	nmap("gp", function()
 		vim.cmd "vsplit"
@@ -49,7 +51,9 @@ local on_attach = function(client, bufnr)
 			end,
 		"[G]oto [D]efinition"
 	)
-	nmap("<leader>d", vim.diagnostic.setqflist, "Show [D] Diagnostics in qfl")
+	nmap("<leader>d", function()
+		require("fzf-lua").diagnostics()
+	end, "Show [D] Diagnostics in qfl")
 	nmap("gr", client.name == "denols" and vim.lsp.buf.references or function()
 		require("fzf-lua").lsp_references()
 	end, "[G]oto [R]eferences")
@@ -135,7 +139,9 @@ local on_attach = function(client, bufnr)
 	end, { desc = "Copy selected lines errors" })
 
 	-- Lesser used LSP functionality
-	nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
+	nmap("gD", function()
+		require("fzf-lua").lsp_declarations()
+	end, "[G]oto [D]eclaration")
 	nmap(
 		"<leader>wa",
 		vim.lsp.buf.add_workspace_folder,
