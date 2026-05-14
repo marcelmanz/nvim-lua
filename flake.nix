@@ -40,6 +40,10 @@
         markdown-oxide
         nil
         python3Packages.python-lsp-server
+        python3Packages.pyflakes
+        python3Packages.jedi
+        python3Packages.mccabe
+        python3Packages.pycodestyle
         rust-analyzer
         taplo
         typescript-language-server
