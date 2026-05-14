@@ -47,6 +47,9 @@ return {
 				autopep8 = { enabled = false },
 				yapf = { enabled = false },
 				isort = { enabled = false },
+				-- Auto-imports
+				rope_autoimport = { enabled = true },
+				jedi_completion = { eager = true },
 			},
 		},
 	},
