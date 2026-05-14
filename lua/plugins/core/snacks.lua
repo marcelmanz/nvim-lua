@@ -211,20 +211,20 @@ return {
 		},
 
 		-- LSP
-		{
-			"<Leader>gr",
-			function()
-				require("snacks").picker.lsp_references()
-			end,
-			desc = "LSP References",
-		},
-		{
-			"<leader>sy",
-			function()
-				require("snacks").picker.lsp_symbols()
-			end,
-			desc = "Document Symbols",
-		},
+		-- {
+		-- 	"<Leader>gr",
+		-- 	function()
+		-- 		require("snacks").picker.lsp_references()
+		-- 	end,
+		-- 	desc = "LSP References",
+		-- },
+		-- {
+		-- 	"<leader>sy",
+		-- 	function()
+		-- 		require("snacks").picker.lsp_symbols()
+		-- 	end,
+		-- 	desc = "Document Symbols",
+		-- },
 
 		-- git
 		{

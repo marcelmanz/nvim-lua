@@ -100,7 +100,7 @@ return {
 					"dprint",
 					"cbfmt",
 					"prettierd",
-					stop_after_first = false,
+					stop_after_first = true,
 				},
 				sh = { "shfmt" },
 				bash = { "shfmt" },

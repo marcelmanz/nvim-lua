@@ -62,5 +62,12 @@ return {
 			end,
 			desc = "Resume an Fzf action",
 		},
+		{
+			"<leader>gr",
+			function()
+				require("fzf-lua").lsp_references()
+			end,
+			desc = "Find Files",
+		},
 	},
 }
