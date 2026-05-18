@@ -9,6 +9,7 @@ local sh_filetype_group = ag("shFiletypeGroup", { clear = true })
 local typ_filetype_group = ag("typFiletypeGroup", { clear = true })
 local git_commit_auto_commands = ag("GitCommitAutoCommands", { clear = true })
 local add_80_chars_on_markdown = ag("Add80CharsOnMarkdown", { clear = true })
+local python_line_length = ag("PythonLineLength", { clear = true })
 local disable_diagnostics_on_markdown =
 	ag("DisableDiagnosticsOnMarkdown", { clear = true })
 local relative_numbers_insert_mode =
@@ -115,6 +116,15 @@ au({ "BufNewFile", "BufRead" }, {
 	pattern = { "*.md" },
 	command = "setlocal textwidth=80",
 	group = add_80_chars_on_markdown,
+})
+
+au({ "BufNewFile", "BufRead" }, {
+	pattern = { "*.py" },
+	callback = function()
+		vim.opt_local.textwidth = 100
+		vim.opt_local.colorcolumn = "100"
+	end,
+	group = python_line_length,
 })
 
 --not mine
