@@ -48,8 +48,8 @@ return {
 				yapf = { enabled = false },
 				isort = { enabled = false },
 				-- Auto-imports
-				rope_autoimport = { enabled = true },
-				jedi_completion = { eager = true },
+				rope_autoimport = { enabled = false },
+				jedi_completion = { eager = false },
 				pycodestyle = {
 					ignore = { "W391" },
 					maxLineLength = 100,

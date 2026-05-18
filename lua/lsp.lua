@@ -15,6 +15,8 @@ local lsp_servers = {
 	-- "mdx",
 	"md-oxide",
 	"nix",
+	"ruff",
+	-- "basedpyright",
 	"python",
 	"qmlls",
 	"rust",
