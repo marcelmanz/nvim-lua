@@ -5,7 +5,7 @@ return {
 	-- or if using mini.icons/mini.nvim
 	-- dependencies = { "nvim-mini/mini.icons" },
 	opts = {},
-	enabled = false,
+	enabled = true,
 	config = function()
 		local actions = require("fzf-lua").actions
 		local config = require "fzf-lua.config"
