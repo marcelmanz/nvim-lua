@@ -34,6 +34,8 @@ local function ConflictsQF()
 	end
 end
 
+vim.keymap.set("n", "<leader>cq", ConflictsQF)
+
 vim.api.nvim_create_user_command("ConflictsQF", ConflictsQF, {})
 
 vim.api.nvim_create_user_command("ENV", function()
@@ -169,103 +171,3 @@ vim.api.nvim_create_user_command("MdWatch", function()
 		vim.notify "at http://127.0.0.1:3000/"
 	end
 end, { desc = "Toggle mdwatch markdown preview" })
-
-vim.api.nvim_create_user_command("LspInfo", function()
-	local buf = vim.api.nvim_create_buf(false, true)
-	local clients = vim.lsp.get_clients()
-	local bufnr = vim.api.nvim_get_current_buf()
-	local attached_clients = vim.lsp.get_clients { bufnr = bufnr }
-
-	local lines = {
-		"LSP Client Status",
-		"",
-		string.format("Current buffer: %s", vim.api.nvim_buf_get_name(bufnr)),
-		"",
-	}
-
-	if #attached_clients > 0 then
-		table.insert(lines, "Attached clients:")
-		for _, client in ipairs(attached_clients) do
-			table.insert(
-				lines,
-				string.format("  • %s (id: %d)", client.name, client.id)
-			)
-			if client.config.root_dir then
-				table.insert(
-					lines,
-					string.format("    root: %s", client.config.root_dir)
-				)
-			end
-			if client.config.cmd then
-				local cmd_str = table.concat(client.config.cmd, " ")
-				table.insert(lines, string.format("    cmd: %s", cmd_str))
-			end
-		end
-		table.insert(lines, "")
-	else
-		table.insert(lines, "No clients attached to current buffer")
-		table.insert(lines, "")
-	end
-
-	if #clients > 0 then
-		table.insert(lines, "All active clients:")
-		for _, client in ipairs(clients) do
-			local is_attached = vim.tbl_contains(
-				vim.tbl_map(function(c)
-					return c.id
-				end, attached_clients),
-				client.id
-			)
-			local marker = is_attached and "●" or "○"
-			table.insert(
-				lines,
-				string.format(
-					"  %s %s (id: %d)",
-					marker,
-					client.name,
-					client.id
-				)
-			)
-			if client.config.root_dir then
-				table.insert(
-					lines,
-					string.format("    root: %s", client.config.root_dir)
-				)
-			end
-			if client.config.cmd then
-				local cmd_str = table.concat(client.config.cmd, " ")
-				table.insert(lines, string.format("    cmd: %s", cmd_str))
-			end
-			local bufs = vim.lsp.get_buffers_by_client_id(client.id)
-			table.insert(lines, string.format("    buffers: %d", #bufs))
-		end
-	else
-		table.insert(lines, "No active LSP clients")
-	end
-
-	vim.api.nvim_buf_set_lines(buf, 0, -1, true, lines)
-	vim.api.nvim_buf_set_option(buf, "modifiable", false)
-	vim.api.nvim_buf_set_option(buf, "buftype", "nofile")
-
-	local max_width = 0
-	for _, line in ipairs(lines) do
-		max_width = math.max(max_width, #line)
-	end
-
-	local opts = {
-		relative = "editor",
-		width = math.min(max_width + 4, vim.o.columns - 10),
-		height = math.min(#lines + 2, vim.o.lines - 6),
-		col = (vim.o.columns - math.min(max_width + 4, vim.o.columns - 10)) / 2,
-		row = (vim.o.lines - math.min(#lines + 2, vim.o.lines - 6)) / 2,
-		anchor = "NW",
-		style = "minimal",
-		border = { " ", " ", " ", " ", " ", " ", " ", " " },
-		title = " LSP Info ",
-		title_pos = "center",
-	}
-
-	local win = vim.api.nvim_open_win(buf, true, opts)
-	vim.keymap.set("n", "q", ":q<CR>", { buffer = buf })
-	vim.keymap.set("n", "<Esc>", ":q<CR>", { buffer = buf })
-end, { desc = "Show LSP client information" })

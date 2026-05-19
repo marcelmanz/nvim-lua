@@ -25,6 +25,7 @@ vim.g.loaded_shada_plugin = 1
 vim.g.loaded_spellfile_plugin = 1
 
 vim.o.winborder = "single"
+vim.o.winbar = "%f" -- replaces dropbar.nvim
 vim.o.splitbelow = false
 vim.o.splitkeep = "screen"
 vim.o.splitright = true

@@ -50,53 +50,6 @@ local function setup_mini_notify(setup_notify)
 	end, {})
 end
 
-local function setup_mini_diff(setup_diff)
-	local diff = require "mini.diff"
-	setup_diff {
-		source = diff.gen_source.none(),
-	}
-
-	local diff_colors = {
-		delete = "#681300",
-		add = "#055800",
-		change = "#105090",
-		base_text = "#ffffff",
-		text_fg = "#000000",
-	}
-
-	vim.api.nvim_create_augroup("MyDiffSigns", { clear = true })
-	vim.api.nvim_create_autocmd("ColorScheme", {
-		group = "MyDiffSigns",
-		pattern = "*",
-		callback = function()
-			vim.o.termguicolors = true
-			vim.cmd "highlight SignColumn guibg=NONE ctermbg=NONE"
-
-			vim.api.nvim_set_hl(
-				0,
-				"CustomDiffAdd",
-				{ fg = diff_colors.text_fg, bg = diff_colors.add }
-			)
-
-			vim.api.nvim_set_hl(
-				0,
-				"CustomDiffChange",
-				{ fg = diff_colors.text_fg, bg = diff_colors.change }
-			)
-
-			vim.api.nvim_set_hl(0, "CustomDiffDelete", {
-				fg = diff_colors.text_fg,
-				bg = diff_colors.delete,
-				bold = false,
-			})
-
-			vim.cmd [[highlight! link DiffAdd    CustomDiffAdd]]
-			vim.cmd [[highlight! link DiffChange CustomDiffChange]]
-			vim.cmd [[highlight! link DiffDelete CustomDiffDelete]]
-		end,
-	})
-end
-
 local function setup_mini_snippets(setup_snippets)
 	local mini_snippets = require "mini.snippets"
 	local gen_loader = mini_snippets.gen_loader
@@ -353,7 +306,6 @@ return {
 		{ "nvim-mini/mini.snippets", version = false },
 	},
 	config = function()
-		setup_mini_diff(require("mini.diff").setup)
 		setup_mini_notify(require("mini.notify").setup)
 		setup_mini_snippets(require("mini.snippets").setup)
 		setup_mini_starter(require("mini.starter").setup)

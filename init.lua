@@ -1,8 +1,6 @@
 -- require "profiler"
-require "global"
 require "options"
 
-require "lazy-bootstrap"
 require "lazy-plugins"
 
 require "commands"
@@ -11,10 +9,8 @@ require "keybind-helpers"
 require "neovide"
 require "autocmd"
 require "color-settings"
-require "sys-clip"
 require "tmux"
 require "lsp"
-require "highlights"
 
 -- features
 require "features.persistend-qfl"

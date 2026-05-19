@@ -33,6 +33,7 @@ vim.keymap.set("n", "U", "<C-R>", opt_ns)
 
 vim.keymap.set("v", "<", "<gv", opt_ns)
 vim.keymap.set("v", ">", ">gv", opt_ns)
+vim.keymap.set("x", "s", [["_dP]], { desc = "Substitute (paste-over)" }) -- replaces substitute.nvim
 vim.keymap.set("n", "^v", "^v<Esc>", opt_ns)
 
 vim.keymap.set("n", "<leader>cd", ":cd %:p:h<cr>:pwd<cr>", opt_ns)
