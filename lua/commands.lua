@@ -44,9 +44,9 @@ vim.api.nvim_create_user_command("ENV", function()
 	end
 
 	-- Use fzf-lua to show files in ./ENV directory
-	require("fzf-lua").files({
+	require("fzf-lua").files {
 		cwd = "./ENV",
-	})
+	}
 end, {})
 
 -- Check ~/scripts/todos.sh and ~/scripts/find-todos.sh for more info
@@ -139,9 +139,13 @@ local print_conventional_commits_help = function()
 	vim.keymap.set("n", "<Esc>", ":q<CR>", { buffer = buf })
 end
 
-vim.api.nvim_create_user_command("ConventionalCommits", print_conventional_commits_help, {
-	desc = "Show conventional commits quick reference"
-})
+vim.api.nvim_create_user_command(
+	"ConventionalCommits",
+	print_conventional_commits_help,
+	{
+		desc = "Show conventional commits quick reference",
+	}
+)
 
 local mdwatch_job_id = nil
 
@@ -162,7 +166,7 @@ vim.api.nvim_create_user_command("MdWatch", function()
 			end,
 		})
 		vim.notify("mdwatch started: " .. filepath, vim.log.levels.INFO)
-		vim.notify("at http://127.0.0.1:3000/")
+		vim.notify "at http://127.0.0.1:3000/"
 	end
 end, { desc = "Toggle mdwatch markdown preview" })
 

@@ -9,13 +9,6 @@ vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
-vim.keymap.set("n", "[d", function()
-	vim.diagnostic.jump { count = -1, float = true }
-end, { desc = "Go to previous diagnostic message" })
-vim.keymap.set("n", "]d", function()
-	vim.diagnostic.jump { count = 1, float = true }
-end, { desc = "Go to next diagnostic message" })
-
 vim.api.nvim_set_keymap("n", "<Leader>sw", [[:%s/\<<C-r><C-w>\>//g<Left><Left>]], { noremap = true, silent = false })
 vim.api.nvim_set_keymap("n", "<Leader>nn", ":e ~/clones/pers/notes/notes.md<cr>", { noremap = true, silent = false })
 
@@ -179,7 +172,6 @@ vim.keymap.set("n", "<C-j>", "<cmd>cnext<CR>zz")
 vim.keymap.set("n", "<C-k>", "<cmd>cprev<CR>zz")
 
 vim.keymap.set("n", "<Leader>nh", ":noh<cr>")
-vim.keymap.set("n", "<Leader>rn", vim.lsp.buf.rename)
 vim.keymap.set("n", "<Leader>yf", ':let @+ = expand("%")<cr>')
 
 vim.keymap.set("n", "<Leader>ac", ":AIChat<cr>")
@@ -224,10 +216,6 @@ vim.keymap.set("n", "<leader>yr", "<cmd>CopyRelPath<CR>", { desc = "Copy relativ
 
 vim.keymap.set("n", "<leader>mw", function() vim.cmd "MdWatch" end)
 
-vim.keymap.set("n", "<leader>bn", "<cmd>bnext<CR>", { desc = "Next buffer" })
-vim.keymap.set("n", "<leader>bp", "<cmd>bprev<CR>", { desc = "Previous buffer" })
-vim.keymap.set("n", "<leader><", "<cmd>bfirst<CR>", { desc = "First buffer" })
-vim.keymap.set("n", "<leader>>", "<cmd>blast<CR>", { desc = "Last buffer" })
 vim.keymap.set("n", "<C-^>", "<cmd>buffer #<CR>", { desc = "Alternate buffer" })
 
 local vim_modes = "vn"

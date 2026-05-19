@@ -7,6 +7,7 @@ require "lazy-plugins"
 
 require "commands"
 require "keymaps"
+require "keybind-helpers"
 require "neovide"
 require "autocmd"
 require "color-settings"

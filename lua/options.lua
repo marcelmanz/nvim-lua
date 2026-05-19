@@ -24,6 +24,7 @@ vim.g.loaded_rplugin = 1
 vim.g.loaded_shada_plugin = 1
 vim.g.loaded_spellfile_plugin = 1
 
+vim.o.winborder = "single"
 vim.o.splitbelow = false
 vim.o.splitkeep = "screen"
 vim.o.splitright = true

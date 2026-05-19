@@ -52,13 +52,6 @@ au({ "BufNewFile", "BufRead" }, {
 	group = python_line_length,
 })
 
-au({ "BufReadPost" }, {
-	pattern = { "*" },
-	callback = function()
-		vim.cmd 'silent! normal! g`"zv'
-	end,
-})
-
 vim.api.nvim_create_autocmd("InsertEnter", {
 	pattern = "*",
 	callback = function()
