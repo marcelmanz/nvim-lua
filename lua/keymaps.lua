@@ -44,7 +44,6 @@ vim.keymap.set("n", "<leader>cd", ":cd %:p:h<cr>:pwd<cr>", opt_ns)
 vim.keymap.set("i", "<c-x>", ":lua require('complextras').complete_line_from_cwd()", opt_ns)
 
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
-vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 
 vim.keymap.set("n", "<Leader>w", ":w<cr>", opts)
 vim.keymap.set("n", "<Leader>W", ":w!<cr>", opts)

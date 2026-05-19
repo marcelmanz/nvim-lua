@@ -26,7 +26,6 @@ return {
 	event = "InsertEnter",
 	-- optional: provides snippets for the snippet source
 	dependencies = {
-		-- "giuxtaposition/blink-cmp-copilot",
 		"echasnovski/mini.snippets",
 		-- { "rafamadriz/friendly-snippets", lazy = true },
 		-- LuaSnip moved to optional - only load if using full profile
@@ -101,7 +100,6 @@ return {
 				-- "lazydev", -- Disabled for minimal config (plugin in optional)
 				"lsp",
 				"snippets",
-				-- "copilot",
 				"path",
 				"buffer",
 				"tmux",
@@ -124,13 +122,6 @@ return {
 				-- 	-- make lazydev completions top priority (see `:h blink.cmp`)
 				-- 	score_offset = 100,
 				-- }, -- Disabled for minimal config
-				-- copilot = {
-				-- 	min_keyword_length = 0,
-				-- 	name = "copilot",
-				-- 	module = "blink-cmp-copilot",
-				-- 	score_offset = 100,
-				-- 	async = true,
-				-- },
 			},
 		},
 
@@ -145,76 +136,6 @@ return {
 	},
 	opts_extend = { "sources.default" },
 	config = function(_, opts)
-		-- vim.defer_fn(function()
-		-- 	-- local node_path, node_version = get_plus_than_node(18)
-		-- 	require("copilot").setup {
-		-- 		panel = {
-		-- 			enabled = false,
-		-- 			auto_refresh = false,
-		-- 			keymap = {
-		-- 				jump_prev = "[[",
-		-- 				jump_next = "]]",
-		-- 				accept = "<CR>",
-		-- 				refresh = "gr",
-		-- 				open = "<M-CR>",
-		-- 			},
-		-- 		},
-		-- 		suggestion = {
-		-- 			enabled = true,
-		-- 			auto_trigger = false,
-		-- 			debounce = 75,
-		-- 			keymap = {
-		-- 				accept = "<M-l>",
-		-- 				next = "<M-]>",
-		-- 				prev = "<M-[>",
-		-- 				dismiss = "<C-]>",
-		-- 			},
-		-- 		},
-		-- 		filetypes = {
-		-- 			yaml = true,
-		-- 			markdown = true,
-		-- 			-- 	help = false,
-		-- 			gitcommit = true,
-		-- 			gitrebase = true,
-		-- 			-- 	hgcommit = false,
-		-- 			-- 	svn = false,
-		-- 			-- 	cvs = false,
-		-- 			-- 	["."] = false,
-		-- 			["*"] = true, -- enable for all filetypes
-		-- 		},
-		-- 		-- `copilot_node_command = node_path,
-		-- 		server_opts_overrides = {},
-		-- 	}
-		--
-		-- 	vim.print "Copilot using node v22"
-		-- 	vim.cmd "silent Copilot disable"
-		--
-		-- 	vim.keymap.set("n", "<leader>ce", function()
-		-- 		vim.cmd "Copilot enable"
-		-- 		vim.cmd "Copilot suggestion"
-		-- 		vim.print "Copilot enabled"
-		-- 	end, { noremap = true, silent = false })
-		--
-		-- 	vim.keymap.set(
-		-- 		"n",
-		-- 		"<leader>cd",
-		-- 		":Copilot disable<cr>",
-		-- 		{ noremap = true, silent = false }
-		-- 	)
-		-- 	vim.keymap.set(
-		-- 		"n",
-		-- 		"<leader>cp",
-		-- 		":Copilot panel<cr>",
-		-- 		{ noremap = true, silent = false }
-		-- 	)
-		-- 	vim.keymap.set(
-		-- 		"n",
-		-- 		"<leader>cs",
-		-- 		":Copilot suggestion<cr>",
-		-- 		{ noremap = true, silent = false }
-		-- 	)
-		-- end, 100)
-
 		require("blink.cmp").setup(opts)
 	end,
 }

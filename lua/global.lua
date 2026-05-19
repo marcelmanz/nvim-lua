@@ -29,8 +29,4 @@ end
 
 _G.typescript_server_import_all = typescript_server_import_all
 
-local has_splits = function()
-	return vim.api.nvim_get_current_win() > 1000
-end
 
-_G.has_splits = has_splits

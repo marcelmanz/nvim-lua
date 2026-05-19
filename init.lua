@@ -5,7 +5,6 @@ require "options"
 require "lazy-bootstrap"
 require "lazy-plugins"
 
--- require "treesitter-setup"
 require "commands"
 require "keymaps"
 require "neovide"
@@ -15,9 +14,6 @@ require "sys-clip"
 require "tmux"
 require "lsp"
 require "highlights"
--- require "ziggy"
--- require "zig-official-color"
--- require "lsp-setup" -- needs to be migrated
 
 -- features
 require "features.persistend-qfl"
