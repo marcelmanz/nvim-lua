@@ -24,6 +24,7 @@ Loaded dynamically from `~/.cache/.theme_mode` (writes `light` or `dark`).
 | `shine`                  | light          | Clean light theme.                                                                         |
 | `deepwhite`              | light          | Clean light theme.                                                                         |
 | `makurai`                | dark           | No notes.                                                                                  |
+| `naysayer`               | dark           | Jonhathan Blow Emacs theme port to nvim                                                    |
 
 ---
 

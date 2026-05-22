@@ -314,12 +314,12 @@ return {
 		-- mini.surround replaces nvim-surround (sa/sd/sr instead of ys/ds/cs)
 		require("mini.surround").setup {
 			mappings = {
-				add            = "sa", -- Add surrounding in Normal and Visual modes
-				delete         = "sd", -- Delete surrounding
-				find           = "sf", -- Find surrounding (to the right)
-				find_left      = "sF", -- Find surrounding (to the left)
-				highlight      = "sh", -- Highlight surrounding
-				replace        = "sr", -- Replace surrounding
+				add = "sa", -- Add surrounding in Normal and Visual modes
+				delete = "sd", -- Delete surrounding
+				find = "sf", -- Find surrounding (to the right)
+				find_left = "sF", -- Find surrounding (to the left)
+				highlight = "sh", -- Highlight surrounding
+				replace = "sr", -- Replace surrounding
 				update_n_lines = "sn", -- Update `n_lines`
 			},
 		}
@@ -330,9 +330,17 @@ return {
 			vim.api.nvim_set_hl(0, "CursorLine", { bg = "#d5d9d3" })
 			-- minispring uses yellow (#676900, dark olive) as Search bg — looks brown on light.
 			-- Override with yellow_bg (#e6ed62, light yellow) which is the proper light-theme bg variant.
-			vim.api.nvim_set_hl(0, "Search",    { fg = "#2c2e33", bg = "#e6ed62" })
-			vim.api.nvim_set_hl(0, "IncSearch", { fg = "#2c2e33", bg = "#e6ed62" })
-			vim.api.nvim_set_hl(0, "CurSearch", { fg = "#2c2e33", bg = "#e6ed62" })
+			vim.api.nvim_set_hl(0, "Search", { fg = "#2c2e33", bg = "#e6ed62" })
+			vim.api.nvim_set_hl(
+				0,
+				"IncSearch",
+				{ fg = "#2c2e33", bg = "#e6ed62" }
+			)
+			vim.api.nvim_set_hl(
+				0,
+				"CurSearch",
+				{ fg = "#2c2e33", bg = "#e6ed62" }
+			)
 		end
 	end,
 	keys = {
