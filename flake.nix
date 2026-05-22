@@ -65,6 +65,7 @@
         prettierd
         rustfmt
         shfmt
+        emmylua-check
         stylua
         # tombi not available in nixpkgs
         xmlformat

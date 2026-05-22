@@ -2,7 +2,9 @@ local M = {}
 
 local on_attach = function(client, bufnr)
 	local nmap = function(keys, func, desc)
-		if desc then desc = "LSP: " .. desc end
+		if desc then
+			desc = "LSP: " .. desc
+		end
 		vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
 	end
 
@@ -15,16 +17,14 @@ local on_attach = function(client, bufnr)
 		vim.lsp.buf.definition()
 	end, "[G]oto Definition [S]plit")
 
-	nmap(
-		"gd",
-		vim.lsp.buf.definition,
-		"[G]oto [D]efinition"
-	)
+	nmap("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
 
 	nmap(
 		"<leader>gd",
 		client.name == "denols" and vim.lsp.buf.definition
-			or function() require("fzf-lua").lsp_definitions() end,
+			or function()
+				require("fzf-lua").lsp_definitions()
+			end,
 		"[G]oto [D]efinition"
 	)
 	nmap("<leader>d", function()

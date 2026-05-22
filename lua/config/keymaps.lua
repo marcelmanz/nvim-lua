@@ -6,11 +6,31 @@ local opt_ns = { noremap = true, silent = true }
 
 vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 
-vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+vim.keymap.set(
+	"n",
+	"k",
+	"v:count == 0 ? 'gk' : 'k'",
+	{ expr = true, silent = true }
+)
+vim.keymap.set(
+	"n",
+	"j",
+	"v:count == 0 ? 'gj' : 'j'",
+	{ expr = true, silent = true }
+)
 
-vim.api.nvim_set_keymap("n", "<Leader>sw", [[:%s/\<<C-r><C-w>\>//g<Left><Left>]], { noremap = true, silent = false })
-vim.api.nvim_set_keymap("n", "<Leader>nn", ":e ~/clones/pers/notes/notes.md<cr>", { noremap = true, silent = false })
+vim.api.nvim_set_keymap(
+	"n",
+	"<Leader>sw",
+	[[:%s/\<<C-r><C-w>\>//g<Left><Left>]],
+	{ noremap = true, silent = false }
+)
+vim.api.nvim_set_keymap(
+	"n",
+	"<Leader>nn",
+	":e ~/clones/pers/notes/notes.md<cr>",
+	{ noremap = true, silent = false }
+)
 
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
@@ -37,9 +57,18 @@ vim.keymap.set("x", "s", [["_dP]], { desc = "Substitute (paste-over)" }) -- repl
 vim.keymap.set("n", "^v", "^v<Esc>", opt_ns)
 
 vim.keymap.set("n", "<leader>cd", ":cd %:p:h<cr>:pwd<cr>", opt_ns)
-vim.keymap.set("i", "<c-x>", ":lua require('complextras').complete_line_from_cwd()", opt_ns)
+vim.keymap.set(
+	"i",
+	"<c-x>",
+	":lua require('complextras').complete_line_from_cwd()",
+	opt_ns
+)
 
-vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+vim.keymap.set(
+	"n",
+	"<leader>s",
+	[[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]]
+)
 
 vim.keymap.set("n", "<Leader>w", ":w<cr>", opts)
 vim.keymap.set("n", "<Leader>W", ":w!<cr>", opts)
@@ -62,7 +91,8 @@ local function will_exit_nvim()
 	for _, win in ipairs(vim.fn.getwininfo()) do
 		if win.tabnr == current_tabpage then
 			local buf = vim.api.nvim_win_get_buf(win.winid)
-			local buftype = vim.api.nvim_get_option_value("buftype", { buf = buf })
+			local buftype =
+				vim.api.nvim_get_option_value("buftype", { buf = buf })
 			if buftype == "" or buftype == "acwrite" then
 				normal_windows = normal_windows + 1
 			end
@@ -119,13 +149,38 @@ vim.keymap.set("n", "<Leader>e", ":e<cr>", opts)
 vim.keymap.set("n", "<Leader>sj", ":split<cr>", opts)
 vim.keymap.set("n", "<Leader>sl", ":vsplit<cr>", opts)
 
-vim.keymap.set("n", "<Leader>o", ":luafile %<cr>", { noremap = true, silent = false })
-vim.keymap.set("n", "<Leader>so", ":luafile ~/.config/nvim/init.lua<cr>", { noremap = true, silent = false })
+vim.keymap.set(
+	"n",
+	"<Leader>o",
+	":luafile %<cr>",
+	{ noremap = true, silent = false }
+)
+vim.keymap.set(
+	"n",
+	"<Leader>so",
+	":luafile ~/.config/nvim/init.lua<cr>",
+	{ noremap = true, silent = false }
+)
 
-vim.keymap.set("n", "<leader>xo", "<cmd>source %<cr>", { desc = "Source current lua file" })
+vim.keymap.set(
+	"n",
+	"<leader>xo",
+	"<cmd>source %<cr>",
+	{ desc = "Source current lua file" }
+)
 
-vim.keymap.set("v", "<leader>s", ":'<,'>sort<CR>", { desc = "Sort visual selection" })
-vim.keymap.set("n", "<leader>sp", "vip:sort<CR>", { desc = "Sort current paragraph", silent = true })
+vim.keymap.set(
+	"v",
+	"<leader>s",
+	":'<,'>sort<CR>",
+	{ desc = "Sort visual selection" }
+)
+vim.keymap.set(
+	"n",
+	"<leader>sp",
+	"vip:sort<CR>",
+	{ desc = "Sort current paragraph", silent = true }
+)
 
 local function source_for_lua_or_bash()
 	if vim.bo.filetype == "lua" then
@@ -135,13 +190,43 @@ local function source_for_lua_or_bash()
 	end
 end
 
-vim.keymap.set("n", "<leader>x", source_for_lua_or_bash, { desc = "Source current line in lua files" })
-vim.keymap.set("v", "<leader>x", ":lua<cr>", { desc = "Source visual selection in lua files" })
+vim.keymap.set(
+	"n",
+	"<leader>x",
+	source_for_lua_or_bash,
+	{ desc = "Source current line in lua files" }
+)
+vim.keymap.set(
+	"v",
+	"<leader>x",
+	":lua<cr>",
+	{ desc = "Source visual selection in lua files" }
+)
 
-vim.keymap.set("n", "<Leader>li", ":Lazy install<cr>", { noremap = true, silent = false })
-vim.keymap.set("n", "<Leader>lu", ":Lazy update<cr>", { noremap = true, silent = false })
-vim.keymap.set("n", "<Leader>lc", ":Lazy clean<cr>", { noremap = true, silent = false })
-vim.keymap.set("n", "<Leader>ls", ":Lazy sync<cr>", { noremap = true, silent = false })
+vim.keymap.set(
+	"n",
+	"<Leader>li",
+	":Lazy install<cr>",
+	{ noremap = true, silent = false }
+)
+vim.keymap.set(
+	"n",
+	"<Leader>lu",
+	":Lazy update<cr>",
+	{ noremap = true, silent = false }
+)
+vim.keymap.set(
+	"n",
+	"<Leader>lc",
+	":Lazy clean<cr>",
+	{ noremap = true, silent = false }
+)
+vim.keymap.set(
+	"n",
+	"<Leader>ls",
+	":Lazy sync<cr>",
+	{ noremap = true, silent = false }
+)
 
 function Disable_lsp_virtual_text()
 	print "LSP warnings disabled."
@@ -164,11 +249,17 @@ end
 
 function Lsp_diagnostic_toggle_with_message(force_config)
 	force_config = force_config or false
-	local diagnostic_config = force_config and force_config or lsp_diagnostic_toggle()
+	local diagnostic_config = force_config and force_config
+		or lsp_diagnostic_toggle()
 	vim.diagnostic.config(diagnostic_config)
 end
 
-vim.keymap.set("n", "<Leader>di", Lsp_diagnostic_toggle_with_message, { noremap = true, silent = false })
+vim.keymap.set(
+	"n",
+	"<Leader>di",
+	Lsp_diagnostic_toggle_with_message,
+	{ noremap = true, silent = false }
+)
 
 vim.keymap.set("n", "<leader>co", toggle_quickfix, opt_ns)
 vim.keymap.set("n", "<C-j>", "<cmd>cnext<CR>zz")
@@ -192,11 +283,25 @@ local function StarWithDash(cmd)
 	vim.bo.iskeyword = isk
 end
 
-vim.keymap.set("n", "<leader>*", function() StarWithDash "*" end, { noremap = true })
-vim.keymap.set("n", "<leader>#", function() StarWithDash "#" end, { noremap = true })
+vim.keymap.set("n", "<leader>*", function()
+	StarWithDash "*"
+end, { noremap = true })
+vim.keymap.set("n", "<leader>#", function()
+	StarWithDash "#"
+end, { noremap = true })
 
-vim.keymap.set("n", "<leader>tn", "<cmd>tabnew %<CR>", { desc = "Zoom current split (tab new)" })
-vim.keymap.set("n", "<leader>tc", "<cmd>tabclose<CR>", { desc = "Unzoom tab (tabclose)" })
+vim.keymap.set(
+	"n",
+	"<leader>tn",
+	"<cmd>tabnew %<CR>",
+	{ desc = "Zoom current split (tab new)" }
+)
+vim.keymap.set(
+	"n",
+	"<leader>tc",
+	"<cmd>tabclose<CR>",
+	{ desc = "Unzoom tab (tabclose)" }
+)
 
 vim.keymap.set("n", "<leader>ya", function()
 	local abs_path = vim.fn.expand "%:p"
@@ -208,9 +313,16 @@ vim.keymap.set("n", "<leader>ya", function()
 	vim.notify("Copied: " .. abs_path, vim.log.levels.INFO)
 end, { desc = "Copy absolute path to clipboard" })
 
-vim.keymap.set("n", "<leader>yr", "<cmd>CopyRelPath<CR>", { desc = "Copy relative path to clipboard" })
+vim.keymap.set(
+	"n",
+	"<leader>yr",
+	"<cmd>CopyRelPath<CR>",
+	{ desc = "Copy relative path to clipboard" }
+)
 
-vim.keymap.set("n", "<leader>mw", function() vim.cmd "MdWatch" end)
+vim.keymap.set("n", "<leader>mw", function()
+	vim.cmd "MdWatch"
+end)
 
 vim.keymap.set("n", "<C-^>", "<cmd>buffer #<CR>", { desc = "Alternate buffer" })
 

@@ -7,7 +7,9 @@ end, { desc = "Run git status in tmux window" })
 vim.api.nvim_create_user_command("GitBlameLine", function()
 	local filepath = vim.fn.expand "%:p"
 	local current_line = vim.api.nvim_win_get_cursor(0)[1]
-	tmux.create_tmux_command("tig blame +" .. current_line .. " -- " .. filepath)
+	tmux.create_tmux_command(
+		"tig blame +" .. current_line .. " -- " .. filepath
+	)
 end, { desc = "Run tig blame on current line in tmux window" })
 
 vim.api.nvim_create_user_command("GitBlameFile", function()

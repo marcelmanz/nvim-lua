@@ -11,7 +11,7 @@ return {
 	root_markers = { ".vale.ini" },
 
 	on_init = function(client, _)
-		local styles_path = vim.fn.expand("~/.vale/styles")
+		local styles_path = vim.fn.expand "~/.vale/styles"
 		local config_dir = styles_path .. "/config"
 		local vocab_dir = config_dir .. "/vocabularies"
 		local base_vocab_dir = vocab_dir .. "/Base"
@@ -33,12 +33,15 @@ return {
 		end
 
 		local styles_link = styles_path .. "/styles"
-		local vale_data_dir = vim.fn.expand("~/.local/share/vale/styles")
+		local vale_data_dir = vim.fn.expand "~/.local/share/vale/styles"
 
-		if vim.fn.isdirectory(vale_data_dir) == 1 and vim.fn.isdirectory(styles_link) == 0 then
-			vim.fn.system({ "ln", "-sf", vale_data_dir, styles_link })
+		if
+			vim.fn.isdirectory(vale_data_dir) == 1
+			and vim.fn.isdirectory(styles_link) == 0
+		then
+			vim.fn.system { "ln", "-sf", vale_data_dir, styles_link }
 		end
 
-		vim.fn.system({ "vale", "sync" })
+		vim.fn.system { "vale", "sync" }
 	end,
 }

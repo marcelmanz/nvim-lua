@@ -21,7 +21,10 @@ function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
 			else
 				ref = string.format("[%d]", link_index)
 				unique_refs[url] = link_index
-				table.insert(references, string.format("[%d]: %s", link_index, url))
+				table.insert(
+					references,
+					string.format("[%d]: %s", link_index, url)
+				)
 				link_index = link_index + 1
 			end
 			return string.format("[%s]%s", text, ref)
@@ -33,7 +36,11 @@ function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
 	while i <= #contents do
 		local current_line = contents[i]
 		local next_line = contents[i + 1]
-		if next_line and current_line:match "%[%d+%]$" and next_line:match "^%S" then
+		if
+			next_line
+			and current_line:match "%[%d+%]$"
+			and next_line:match "^%S"
+		then
 			current_line = current_line .. " " .. next_line
 			i = i + 1
 		end
@@ -48,7 +55,9 @@ function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
 
 	local max_width = 0
 	for _, line in ipairs(merged_contents) do
-		if #line > max_width then max_width = #line end
+		if #line > max_width then
+			max_width = #line
+		end
 	end
 
 	local total_lines = #merged_contents

@@ -6,11 +6,12 @@ local function get_vale_accept_path()
 	local base_path = cwd
 
 	if vim.fn.filereadable(vale_ini) == 0 then
-		vale_ini = vim.fn.expand("~/.config/vale/.vale.ini")
-		base_path = vim.fn.expand("~")
+		vale_ini = vim.fn.expand "~/.config/vale/.vale.ini"
+		base_path = vim.fn.expand "~"
 
 		if vim.fn.filereadable(vale_ini) == 0 then
-			return nil, "No .vale.ini found in current directory or ~/.config/vale/.vale.ini"
+			return nil,
+				"No .vale.ini found in current directory or ~/.config/vale/.vale.ini"
 		end
 	end
 
@@ -81,7 +82,7 @@ function M.add_word_to_accept()
 		vim.log.levels.INFO
 	)
 
-	vim.cmd("silent write")
+	vim.cmd "silent write"
 end
 
 vim.keymap.set("n", "<leader>va", function()

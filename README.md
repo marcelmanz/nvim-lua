@@ -30,15 +30,17 @@ NVIM_APPNAME=marcelarie-nvim-lua/ nvim
 This configuration supports two plugin modes for different performance needs:
 
 ### Core Mode (Default)
+
 - fast startup
 - ~14 essential plugins (33 counting deps)
 - Basic editing, LSP, treesitter, and core capability
 - **Startup time is less than 40ms**
 
 ### Full Mode
+
 - a bit slower startup but still lazy loaded and fast
-- 80+ plugins with extended functionality  
-- Includes all core plugins 
+- 80+ plugins with extended functionality
+- Includes all core plugins
 - **Startup time around 160ms**
 
 Switch between modes by setting the environment variable:
@@ -52,6 +54,7 @@ NVIM_PROFILE=full nvim
 ```
 
 Or use the commands within Neovim:
+
 - `:ProfileCurrent` - Show current mode
 - `:ProfileMinimal` - Instructions for core mode
 - `:ProfileFull` - Instructions for full mode

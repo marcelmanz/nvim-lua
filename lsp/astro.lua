@@ -7,7 +7,8 @@
 --- npm install -g @astrojs/language-server
 --- ```
 
-local get_typescript_server_path = require "lib.typescript".get_typescript_server_path
+local get_typescript_server_path =
+	require("lib.typescript").get_typescript_server_path
 
 ---@type vim.lsp.Config
 return {

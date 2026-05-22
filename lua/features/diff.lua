@@ -5,7 +5,7 @@ local state = {
 	marked_bufnr = nil,
 	marked_start = nil,
 	marked_end = nil,
-	mark_ns = vim.api.nvim_create_namespace("diff_mark"),
+	mark_ns = vim.api.nvim_create_namespace "diff_mark",
 	mark_id = nil,
 	last_left_lines = nil,
 	last_right_lines = nil,
@@ -53,24 +53,24 @@ function M.operator_mark()
 	)
 
 	if state.mark_id then
-		pcall(vim.api.nvim_buf_del_extmark, state.marked_bufnr, state.mark_ns, state.mark_id)
+		pcall(
+			vim.api.nvim_buf_del_extmark,
+			state.marked_bufnr,
+			state.mark_ns,
+			state.mark_id
+		)
 	end
 
 	local bufnr, lines, start_line, end_line = get_visual_lines()
 	state.marked_lines = lines
 	state.marked_bufnr = bufnr
 
-	state.mark_id = vim.api.nvim_buf_set_extmark(
-		bufnr,
-		state.mark_ns,
-		start_line,
-		0,
-		{
+	state.mark_id =
+		vim.api.nvim_buf_set_extmark(bufnr, state.mark_ns, start_line, 0, {
 			end_line = end_line + 1,
 			hl_group = "DiffChange",
 			hl_mode = "combine",
-		}
-	)
+		})
 
 	vim.notify(
 		string.format("Selection marked as left side (%d lines)", #lines),
@@ -101,7 +101,7 @@ function M.operator_compare()
 	local right_file = create_temp_file("right", right_lines)
 
 	local diff_cmd
-	if vim.fn.executable("difft") == 1 then
+	if vim.fn.executable "difft" == 1 then
 		diff_cmd = string.format(
 			"difft --display=inline --context=10000 %s %s; rm %s %s",
 			left_file,
@@ -122,12 +122,17 @@ function M.operator_compare()
 	local split_cmd = get_split_direction()
 	vim.cmd(split_cmd)
 	vim.cmd("terminal " .. diff_cmd)
-	vim.cmd("startinsert")
+	vim.cmd "startinsert"
 end
 
 function M.clear_mark()
 	if state.mark_id then
-		pcall(vim.api.nvim_buf_del_extmark, state.marked_bufnr, state.mark_ns, state.mark_id)
+		pcall(
+			vim.api.nvim_buf_del_extmark,
+			state.marked_bufnr,
+			state.mark_ns,
+			state.mark_id
+		)
 		state.mark_id = nil
 	end
 	state.marked_lines = nil
@@ -145,7 +150,7 @@ function M.reopen_last_diff()
 	local right_file = create_temp_file("right", state.last_right_lines)
 
 	local diff_cmd
-	if vim.fn.executable("difft") == 1 then
+	if vim.fn.executable "difft" == 1 then
 		diff_cmd = string.format(
 			"difft --display=inline --context=10000 %s %s; rm %s %s",
 			left_file,
@@ -166,7 +171,7 @@ function M.reopen_last_diff()
 	local split_cmd = get_split_direction()
 	vim.cmd(split_cmd)
 	vim.cmd("terminal " .. diff_cmd)
-	vim.cmd("startinsert")
+	vim.cmd "startinsert"
 end
 
 vim.keymap.set("v", "gdl", function()
