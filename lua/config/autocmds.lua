@@ -78,9 +78,18 @@ vim.filetype.add {
 	},
 }
 
-au({ "BufNewFile", "BufRead" }, {
+-- Use BufReadPost so editorconfig has already set textwidth (via max_line_length)
+-- before we sync colorcolumn to it. Falls back to 80 if nothing sets textwidth.
+au({ "BufNewFile", "BufReadPost" }, {
 	pattern = { "*.md" },
-	command = "setlocal textwidth=80",
+	callback = function()
+		local tw = vim.bo.textwidth
+		if tw == 0 then
+			tw = 80
+			vim.opt_local.textwidth = tw
+		end
+		vim.opt_local.colorcolumn = tostring(tw)
+	end,
 	group = add_80_chars_on_markdown,
 })
 
