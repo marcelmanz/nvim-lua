@@ -28,11 +28,11 @@ NVIM_APPNAME=tm-nvim-lua/ nvim
 ## Startup time
 
 ```bash
-Startuptime: 39.1ms                                                                                │
+Startuptime: 39.1ms
 
-LazyStart 8.16ms                                                                                 │
-LazyDone  19.04ms (+10.88ms)                                                                     │
-UIEnter   39.1ms (+20.05ms)                                                                      │
+LazyStart 8.16ms
+LazyDone  19.04ms (+10.88ms)
+UIEnter   39.1ms (+20.05ms)
 ```
 
 ## File Tree
