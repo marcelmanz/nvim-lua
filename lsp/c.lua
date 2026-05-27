@@ -66,9 +66,29 @@ end
 ---@class ClangdInitializeResult: lsp.InitializeResult
 ---@field offsetEncoding? string
 
+local function build_cmd()
+	local seen, drivers = {}, {}
+	for _, name in ipairs({ "g++", "gcc", "c++", "cc", "clang++", "clang" }) do
+		local p = vim.fn.exepath(name)
+		if p ~= "" then
+			local real = vim.fn.resolve(p)
+			local key = real ~= "" and real or p
+			if not seen[key] then
+				seen[key] = true
+				table.insert(drivers, key)
+			end
+		end
+	end
+	local cmd = { "clangd" }
+	if #drivers > 0 then
+		table.insert(cmd, "--query-driver=" .. table.concat(drivers, ","))
+	end
+	return cmd
+end
+
 ---@type vim.lsp.Config
 return {
-	cmd = { "clangd" },
+	cmd = build_cmd(),
 	filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
 	root_markers = {
 		".clangd",
@@ -94,6 +114,7 @@ return {
 		end
 	end,
 	on_attach = function(client, bufnr)
+		require("lsp.on-attach").on_attach(client, bufnr)
 		vim.api.nvim_buf_create_user_command(
 			bufnr,
 			"LspClangdSwitchSourceHeader",

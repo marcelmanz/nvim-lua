@@ -330,4 +330,30 @@ vim.keymap.set({ "v", "n" }, "<leader>yf", function()
 	vim.cmd [[silent!!yarn eslint --fix %]]
 end, { desc = "Yarn eslint --fix current file" })
 
+local function run_shell(shell, cmd)
+	if cmd == nil or cmd == "" then
+		return
+	end
+	vim.cmd(
+		"r !" .. shell .. " -ic " .. vim.fn.shellescape(cmd) .. " 2>/dev/null"
+	)
+end
+
+vim.keymap.set("n", "<leader>rb", function()
+	local cmd = vim.fn.input "bash> "
+	run_shell("bash", cmd)
+end, { desc = "Run bash alias/function, insert output" })
+
+vim.api.nvim_create_user_command("RunShell", function(opts)
+	local shell, cmd = opts.args:match "^(%S+)%s+(.*)$"
+	if not shell or cmd == "" then
+		vim.notify(
+			"Usage: :RunShell <shell> <cmd>",
+			vim.log.levels.ERROR
+		)
+		return
+	end
+	run_shell(shell, cmd)
+end, { nargs = "+", desc = "Run <shell> -ic <cmd> and insert output" })
+
 -- vim: ts=2 sts=2 sw=2 et
