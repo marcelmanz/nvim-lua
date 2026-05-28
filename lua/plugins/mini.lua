@@ -311,6 +311,11 @@ return {
 		setup_mini_starter(require("mini.starter").setup)
 		setup_mini_statusline(require("mini.statusline").setup)
 
+		-- mini.operators: cr replace (criw, crr, cr$). gr* kept for native LSP.
+		require("mini.operators").setup {
+			replace = { prefix = "cr" },
+		}
+
 		-- mini.surround replaces nvim-surround (sa/sd/sr instead of ys/ds/cs)
 		require("mini.surround").setup {
 			mappings = {

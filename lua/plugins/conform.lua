@@ -11,13 +11,34 @@ return {
 			end,
 			desc = "Format buffer",
 		},
+		{
+			"ff",
+			function()
+				local s = vim.api.nvim_buf_get_mark(0, "<")
+				local e = vim.api.nvim_buf_get_mark(0, ">")
+				local end_line = vim.api.nvim_buf_get_lines(
+					0,
+					e[1] - 1,
+					e[1],
+					false
+				)[1] or ""
+
+				require("conform").format {
+					range = {
+						["start"] = { s[1], s[2] },
+						["end"] = { e[1], math.min(e[2], #end_line) },
+					},
+				}
+			end,
+			mode = "v",
+			desc = "Format selection",
+		},
 	},
 	config = function()
 		local typescript_setup = {
 			-- "eslint_d",
 			-- "oxlint",
-			"oxfmt",
-			-- "eslint",
+			"oxfmt", -- "eslint",
 			-- "prettierd",
 			-- "prettier",
 			-- "deno_fmt",
@@ -28,6 +49,12 @@ return {
 				oxlint = {
 					args = { "lint", "--fix", "--stdin-filename", "$FILENAME" },
 				},
+
+				clang_format = {
+					timeout_ms = 1000,
+					cwd = require("conform.util").root_file { ".clang-format" },
+				},
+
 				eslint_d = {
 					timeout_ms = 1000,
 					lsp_fallback = true,
@@ -69,6 +96,7 @@ return {
 			},
 			formatters_by_ft = {
 				c = { "clang_format" },
+				cpp = { "clang_format" },
 				elixir = { "mix" },
 				lua = { "stylua" },
 				json = { "fixjson" },

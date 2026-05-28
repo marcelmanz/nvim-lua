@@ -74,4 +74,7 @@ vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
 vim.opt.showcmd = false
 
+-- Nvim 0.12 experimental message/cmdline UI
+require("vim._core.ui2").enable()
+
 -- vim: ts=2 sts=2 sw=2 et

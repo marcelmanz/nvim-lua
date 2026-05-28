@@ -8,50 +8,35 @@ local on_attach = function(client, bufnr)
 		vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
 	end
 
-	nmap("gra", function()
-		require("fzf-lua").lsp_code_actions()
-	end, "[C]ode [A]ction")
-
-	nmap("gp", function()
-		vim.cmd "vsplit"
-		vim.lsp.buf.definition()
-	end, "[G]oto Definition [S]plit")
-
-	nmap("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
-
-	nmap(
-		"<leader>gd",
-		client.name == "denols" and vim.lsp.buf.definition
-			or function()
-				require("fzf-lua").lsp_definitions()
-			end,
-		"[G]oto [D]efinition"
-	)
-	nmap("<leader>d", function()
-		require("fzf-lua").diagnostics()
-	end, "Show [D] Diagnostics in qfl")
-	nmap("grr", client.name == "denols" and vim.lsp.buf.references or function()
-		require("fzf-lua").lsp_references()
-	end, "[G]oto [R]eferences")
-	nmap("gri", function()
-		require("fzf-lua").lsp_implementations()
-	end, "[G]oto [I]mplementation")
-	nmap("<leader>D", function()
-		require("fzf-lua").lsp_typedefs()
-	end, "Type [D]efinition")
-	nmap("<leader>ds", function()
-		require("fzf-lua").lsp_document_symbols()
-	end, "[D]ocument [S]ymbols")
-	nmap("<leader>ws", function()
-		require("fzf-lua").lsp_workspace_symbols()
-	end, "[W]orkspace [S]ymbols")
-
+	-- Native LSP defaults (0.11+): gra gri grn grr grt grx gO <C-S>
+	-- Goto-def via tagfunc: <C-]> / <C-w>] (split) / <C-w>v<C-]> (vsplit)
 	-- K hover auto-set by nvim 0.12
 
+	local function hint(native)
+		return function()
+			vim.notify("use native: " .. native, vim.log.levels.WARN)
+		end
+	end
+
+	-- Hints (native key exists)
+	nmap("gp", hint "<C-w>v<C-]>", "Hint: vsplit + goto-def")
+	nmap("gd", hint "<C-]>", "Hint: use <C-]>")
+	nmap("<leader>gd", hint "<C-]>", "Hint: use <C-]>")
+	nmap("<leader>D", hint "grt", "Hint: use grt")
+	nmap("<leader>ds", hint "gO", "Hint: use gO")
+
+	-- Custom g* (no native key)
+	nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
+	nmap("gW", vim.lsp.buf.workspace_symbol, "[W]orkspace symbols")
+	nmap("gl", vim.diagnostic.open_float, "Diagnostic float")
+
+	-- Hints for retired <leader> bindings
+	nmap("<leader>z", hint "gl", "Hint: use gl")
+	nmap("<leader>ws", hint "gW", "Hint: use gW")
 	nmap(
-		"<leader>z",
-		vim.diagnostic.open_float,
-		"Check current line for errors"
+		"<leader>d",
+		hint ":lua vim.diagnostic.setqflist()",
+		"Hint: diagnostics qflist"
 	)
 	local function copy_diags(first, last, include_lines)
 		vim.fn.setreg("+", {}, "V")
@@ -111,10 +96,6 @@ local on_attach = function(client, bufnr)
 			vim.log.levels.INFO
 		)
 	end, { desc = "Copy selected lines errors" })
-
-	nmap("gD", function()
-		require("fzf-lua").lsp_declarations()
-	end, "[G]oto [D]eclaration")
 
 	client.server_capabilities.documentFormattingProvider = true
 end
