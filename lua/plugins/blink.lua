@@ -86,7 +86,7 @@ return {
 				},
 			},
 			menu = {
-				border = "none",
+				border = "solid",
 				draw = {
 					columns = {
 						{ "label", "label_description", gap = 1 },

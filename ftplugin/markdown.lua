@@ -76,18 +76,22 @@ local function format_row_data(header_line, value_line)
 		return display_text
 	end
 
+	local pairs_list = {}
 	for i = 1, #header_clean do
 		local h = header_clean[i]
 		local v = values[i] or ""
-
 		if h ~= "" then
-			local display_val = v == "" and "*(empty)*" or v
-			table.insert(display_text, "**" .. h .. "**")
-			table.insert(display_text, display_val)
-			table.insert(display_text, "---")
+			table.insert(
+				pairs_list,
+				{ h = h, v = v == "" and "*(empty)*" or v }
+			)
 		end
 	end
 
+	for _, pair in ipairs(pairs_list) do
+		table.insert(display_text, "**" .. pair.h .. "**: " .. pair.v)
+		table.insert(display_text, "---")
+	end
 	if #display_text > 0 then
 		table.remove(display_text, #display_text)
 	end
@@ -100,7 +104,13 @@ local function hover_table_row()
 	local row = cursor[1]
 	local line = vim.api.nvim_get_current_line()
 
-	if not is_table_row(line) or is_separator_row(line) then
+	local next_line = vim.api.nvim_buf_get_lines(0, row, row + 1, false)[1]
+		or ""
+	if
+		not is_table_row(line)
+		or is_separator_row(line)
+		or is_separator_row(next_line)
+	then
 		vim.lsp.buf.hover()
 		return
 	end
@@ -113,15 +123,50 @@ local function hover_table_row()
 		return
 	end
 
-	table.insert(display_text, "")
-	table.insert(display_text, "")
+	for i, line in ipairs(display_text) do
+		if line ~= "---" and not line:match "^%*%*" then
+			display_text[i] = " " .. line
+		end
+	end
+	table.insert(display_text, 1, "")
+	table.insert(display_text, 1, "")
 	table.insert(display_text, "")
 	table.insert(display_text, "")
 
-	vim.lsp.util.open_floating_preview(display_text, "markdown", {
+	local bufnr = vim.lsp.util.open_floating_preview(display_text, "markdown", {
 		focus_id = "markdown_table_hover",
 		wrap = true,
+		border = "solid",
+		winhighlight = "FloatBorder:Special",
 	})
+
+	if bufnr then
+		vim.schedule(function()
+			if not vim.api.nvim_buf_is_valid(bufnr) then
+				return
+			end
+			local ns = vim.api.nvim_create_namespace "md_table_hover_hl"
+			vim.api.nvim_buf_clear_namespace(bufnr, ns, 0, -1)
+			local buf_lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+			for i, buf_line in ipairs(buf_lines) do
+				local header = buf_line:match "^%*%*([^*]+)%*%*: "
+					or buf_line:match "^([^*:][^:]*): "
+				if header then
+					local s, e = buf_line:find(header, 1, true)
+					if s then
+						vim.api.nvim_buf_add_highlight(
+							bufnr,
+							ns,
+							"@markup.heading.markdown",
+							i - 1,
+							s - 1,
+							e
+						)
+					end
+				end
+			end
+		end)
+	end
 end
 
 vim.keymap.set(
