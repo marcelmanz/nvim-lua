@@ -27,29 +27,67 @@ local function get_header_line(start_row, fallback_line)
 	return header_line
 end
 
+local function split_cells(line)
+	local cells = vim.split(line, "|")
+	-- drop leading/trailing empty edges from `| a | b |`
+	if cells[1] and vim.trim(cells[1]) == "" then
+		table.remove(cells, 1)
+	end
+	if cells[#cells] and vim.trim(cells[#cells]) == "" then
+		table.remove(cells, #cells)
+	end
+	for i, c in ipairs(cells) do
+		cells[i] = vim.trim(c)
+	end
+	return cells
+end
+
+local function count_non_empty(cells)
+	local n = 0
+	for _, c in ipairs(cells) do
+		if c ~= "" then
+			n = n + 1
+		end
+	end
+	return n
+end
+
 local function format_row_data(header_line, value_line)
-	local headers = vim.split(header_line, "|")
-	local values = vim.split(value_line, "|")
+	local headers = split_cells(header_line)
+	local values = split_cells(value_line)
 	local display_text = {}
 
-	for i = 1, #headers do
-		local h = vim.trim(headers[i] or "")
-		local v = vim.trim(values[i] or "")
+	local header_clean = {}
+	for i, h in ipairs(headers) do
+		header_clean[i] = h:gsub("%*", ""):gsub("_", "")
+	end
 
-		-- clean up markdown bold/italics from header
-		h = h:gsub("%*", ""):gsub("_", "")
+	-- label-table mode: header has <=1 non-empty cell. Use first value cell
+	-- as label, remaining non-empty cells as body.
+	if count_non_empty(header_clean) <= 1 then
+		local label = values[1] and values[1] ~= "" and values[1] or "(row)"
+		table.insert(display_text, "**" .. label .. "**")
+		for i = 2, #values do
+			if values[i] ~= "" then
+				table.insert(display_text, "---")
+				table.insert(display_text, values[i])
+			end
+		end
+		return display_text
+	end
+
+	for i = 1, #header_clean do
+		local h = header_clean[i]
+		local v = values[i] or ""
 
 		if h ~= "" then
 			local display_val = v == "" and "*(empty)*" or v
-
-			-- FIX: Insert as separate items to increase array size and window height
 			table.insert(display_text, "**" .. h .. "**")
 			table.insert(display_text, display_val)
 			table.insert(display_text, "---")
 		end
 	end
 
-	-- Remove the trailing separator line for a clean look
 	if #display_text > 0 then
 		table.remove(display_text, #display_text)
 	end
