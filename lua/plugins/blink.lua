@@ -1,25 +1,3 @@
-local function get_plus_than_node(v)
-	local node_version
-	local home = vim.fn.expand "$HOME"
-	local fnm_path = home .. "/.local/share/fnm/node-versions"
-	local entries = vim.fn.glob(fnm_path .. "/*", false, true)
-
-	local node_path
-
-	for _, entry in ipairs(entries) do
-		local major, minor, patch = entry:match "v(%d+)%.(%d+)%.(%d+)"
-		if major and tonumber(major) >= v then
-			node_path = entry .. "/installation/bin/node"
-			node_version = major .. "." .. minor .. "." .. patch
-			break
-		end
-	end
-
-	return node_path, node_version
-end
-
--- write a function to get the node version from the path
-
 return {
 	"saghen/blink.cmp",
 	-- Lazy load completion on insert mode
@@ -97,7 +75,7 @@ return {
 		-- elsewhere in your config, without redefining it, due to `opts_extend`
 		sources = {
 			default = {
-				-- "lazydev", -- Disabled for minimal config (plugin in optional)
+				-- "lazydev",
 				"lsp",
 				"snippets",
 				"path",
