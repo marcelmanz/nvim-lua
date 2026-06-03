@@ -15,6 +15,7 @@
   "lazy.nvim": { "branch": "main", "commit": "306a05526ada86a7b30af95c5cc81ffba93fef97" },
   "markdown.nvim": { "branch": "master", "commit": "093be911d90de03877f3009de36081c1a6242d51" },
   "mdx.nvim": { "branch": "main", "commit": "6c3dc7c4a4b58b5d86404c21a9b4655282ca08c5" },
+  "mini.clue": { "branch": "main", "commit": "0e37cddd6307eb40248e4226be65304e85df1d18" },
   "mini.hipatterns": { "branch": "main", "commit": "e25cf080aae092a651a92fa5e477f64a61adbebf" },
   "mini.nvim": { "branch": "main", "commit": "44657837c7338e52727facc85c1d95bec1f6bd7c" },
   "mini.snippets": { "branch": "main", "commit": "9a08aa14e02abb790c823a622d7d6c736cbbe65a" },

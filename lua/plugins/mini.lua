@@ -297,6 +297,56 @@ local function setup_mini_statusline(setup_statusline)
 	}
 end
 
+local function setup_mini_clue(miniclue)
+	miniclue.setup {
+		window = {
+			-- Floating window config: width auto-fits longest clue line
+			config = function(bufnr)
+				local max_width = 0
+				for _, line in ipairs(vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)) do
+					max_width = math.max(max_width, vim.fn.strdisplaywidth(line))
+				end
+				return { width = math.max(max_width + 1, 30) }
+			end,
+			-- Delay before showing clue window
+			delay = 1000,
+			scroll_down = "<C-d>",
+			scroll_up = "<C-u>",
+		},
+		triggers = {
+			-- Leader triggers
+			{ mode = { "n", "x" }, keys = "<Leader>" },
+			-- `[` and `]` keys
+			{ mode = "n", keys = "[" },
+			{ mode = "n", keys = "]" },
+			{ mode = "n", keys = ";" },
+			-- Built-in completion
+			{ mode = "i", keys = "<C-x>" },
+			-- `g` key
+			{ mode = { "n", "x" }, keys = "g" },
+			-- Marks
+			{ mode = { "n", "x" }, keys = "'" },
+			{ mode = { "n", "x" }, keys = "`" },
+			-- Registers
+			{ mode = { "n", "x" }, keys = '"' },
+			{ mode = { "i", "c" }, keys = "<C-r>" },
+			-- Window commands
+			{ mode = "n", keys = "<C-w>" },
+			-- `z` key
+			{ mode = { "n", "x" }, keys = "z" },
+		},
+		clues = {
+			miniclue.gen_clues.square_brackets(),
+			miniclue.gen_clues.builtin_completion(),
+			miniclue.gen_clues.g(),
+			miniclue.gen_clues.marks(),
+			miniclue.gen_clues.registers(),
+			miniclue.gen_clues.windows(),
+			miniclue.gen_clues.z(),
+		},
+	}
+end
+
 return {
 	"echasnovski/mini.nvim",
 	-- dir = vim.fn.expand "$HOME/clones/forks/mini.nvim",
@@ -304,12 +354,14 @@ return {
 	event = "VimEnter",
 	dependencies = {
 		{ "nvim-mini/mini.snippets", version = false },
+		{ "nvim-mini/mini.clue", version = false },
 	},
 	config = function()
 		setup_mini_notify(require("mini.notify").setup)
 		setup_mini_snippets(require("mini.snippets").setup)
 		setup_mini_starter(require("mini.starter").setup)
 		setup_mini_statusline(require("mini.statusline").setup)
+		setup_mini_clue(require "mini.clue")
 
 		-- mini.operators: cr replace (criw, crr, cr$). gr* kept for native LSP.
 		require("mini.operators").setup {
