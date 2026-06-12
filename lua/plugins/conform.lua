@@ -76,6 +76,11 @@ return {
 					command = "tombi",
 					prepend_args = { "format", "--offline", "-v" },
 				},
+				rumdl = {
+					prepend_args = {
+						"fmt",
+					},
+				},
 				cbfmt = {
 					prepend_args = {
 						"--config",
@@ -126,6 +131,7 @@ return {
 				scss = { "prettierd", "prettier", stop_after_first = true },
 				markdown = {
 					"prettierd",
+					"rumdl",
 					"dprint",
 					"cbfmt",
 					stop_after_first = true,

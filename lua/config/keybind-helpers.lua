@@ -25,14 +25,14 @@ vim.keymap.set(
 )
 
 -- LSP: code action  (native gra — fzf-lua wired in on_attach)
-vim.keymap.set(
-	"n",
-	"<leader>a",
-	remind("<leader>a", "gra", function()
-		require("fzf-lua").lsp_code_actions()
-	end),
-	{ desc = "DEPRECATED: use gra" }
-)
+-- vim.keymap.set(
+-- 	"n",
+-- 	"<leader>a",
+-- 	remind("<leader>a", "gra", function()
+-- 		require("fzf-lua").lsp_code_actions()
+-- 	end),
+-- 	{ desc = "DEPRECATED: use gra" }
+-- )
 
 -- LSP: implementation  (native gri — fzf-lua wired in on_attach)
 -- (gI was buffer-local; now global reminder is fine since it was removed from on_attach)
