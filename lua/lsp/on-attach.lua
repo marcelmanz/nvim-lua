@@ -29,6 +29,14 @@ local on_attach = function(client, bufnr)
 	nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
 	nmap("gW", vim.lsp.buf.workspace_symbol, "[W]orkspace symbols")
 	nmap("gl", vim.diagnostic.open_float, "Diagnostic float")
+	if client:supports_method "textDocument/inlayHint" then
+		nmap("grh", function()
+			vim.lsp.inlay_hint.enable(
+				not vim.lsp.inlay_hint.is_enabled { bufnr = bufnr },
+				{ bufnr = bufnr }
+			)
+		end, "Toggle inlay [h]ints")
+	end
 
 	-- Hints for retired <leader> bindings
 	nmap("<leader>z", hint "gl", "Hint: use gl")
