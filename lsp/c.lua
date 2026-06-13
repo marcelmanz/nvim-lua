@@ -68,7 +68,7 @@ end
 
 local function build_cmd()
 	local seen, drivers = {}, {}
-	for _, name in ipairs({ "g++", "gcc", "c++", "cc", "clang++", "clang" }) do
+	for _, name in ipairs { "g++", "gcc", "c++", "cc", "clang++", "clang" } do
 		local p = vim.fn.exepath(name)
 		if p ~= "" then
 			local real = vim.fn.resolve(p)

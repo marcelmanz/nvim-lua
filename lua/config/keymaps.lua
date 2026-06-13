@@ -347,10 +347,7 @@ end, { desc = "Run bash alias/function, insert output" })
 vim.api.nvim_create_user_command("RunShell", function(opts)
 	local shell, cmd = opts.args:match "^(%S+)%s+(.*)$"
 	if not shell or cmd == "" then
-		vim.notify(
-			"Usage: :RunShell <shell> <cmd>",
-			vim.log.levels.ERROR
-		)
+		vim.notify("Usage: :RunShell <shell> <cmd>", vim.log.levels.ERROR)
 		return
 	end
 	run_shell(shell, cmd)
