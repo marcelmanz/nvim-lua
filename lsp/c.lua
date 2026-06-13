@@ -79,7 +79,15 @@ local function build_cmd()
 			end
 		end
 	end
-	local cmd = { "clangd" }
+	local cmd = {
+		"clangd",
+		"--background-index",
+		"--clang-tidy",
+		"--completion-style=detailed",
+		"--header-insertion=iwyu",
+		"--function-arg-placeholders",
+		"--pch-storage=memory",
+	}
 	if #drivers > 0 then
 		table.insert(cmd, "--query-driver=" .. table.concat(drivers, ","))
 	end
@@ -131,5 +139,33 @@ return {
 			end,
 			{ desc = "Show symbol info" }
 		)
+
+		vim.keymap.set("n", "grs", function()
+			switch_source_header(bufnr, client)
+		end, {
+			buffer = bufnr,
+			desc = "LSP: Switch [s]ource/header (jump .cpp <-> .h/.hpp)",
+		})
+
+		vim.keymap.set("n", "grth", function()
+			vim.lsp.buf.typehierarchy "subtypes"
+		end, {
+			buffer = bufnr,
+			desc = "LSP: [T]ype [h]ierarchy subtypes (classes deriving FROM this)",
+		})
+		vim.keymap.set("n", "grtH", function()
+			vim.lsp.buf.typehierarchy "supertypes"
+		end, {
+			buffer = bufnr,
+			desc = "LSP: [T]ype [H]ierarchy supertypes (base classes this inherits FROM)",
+		})
+		vim.keymap.set("n", "grc", vim.lsp.buf.incoming_calls, {
+			buffer = bufnr,
+			desc = "LSP: Incoming [c]alls (who calls this function)",
+		})
+		vim.keymap.set("n", "grC", vim.lsp.buf.outgoing_calls, {
+			buffer = bufnr,
+			desc = "LSP: Outgoing [C]alls (functions this one calls)",
+		})
 	end,
 }

@@ -30,12 +30,19 @@ local on_attach = function(client, bufnr)
 	nmap("gW", vim.lsp.buf.workspace_symbol, "[W]orkspace symbols")
 	nmap("gl", vim.diagnostic.open_float, "Diagnostic float")
 	if client:supports_method "textDocument/inlayHint" then
-		nmap("grh", function()
+		local function toggle_inlay_hints()
 			vim.lsp.inlay_hint.enable(
 				not vim.lsp.inlay_hint.is_enabled { bufnr = bufnr },
 				{ bufnr = bufnr }
 			)
-		end, "Toggle inlay [h]ints")
+		end
+		nmap("grh", toggle_inlay_hints, "Toggle inlay [h]ints")
+		vim.api.nvim_buf_create_user_command(
+			bufnr,
+			"ToggleInlayHints",
+			toggle_inlay_hints,
+			{ desc = "Toggle inlay hints" }
+		)
 	end
 
 	-- Hints for retired <leader> bindings
