@@ -20,6 +20,15 @@ local function codelldb_command()
 	return "codelldb"
 end
 
+-- cppdbg adapter, backed by gdb's native DAP interpreter (gdb >= 14).
+-- Lets project `.vscode/launch.json` entries with `"type": "cppdbg"` resolve
+-- without cpptools/OpenDebugAD7. Note: cpptools-only fields (setupCommands,
+-- miDebuggerServerAddress for remote launch) are ignored by gdb's DAP.
+local function gdb_command()
+	local on_path = vim.fn.exepath "gdb"
+	return on_path ~= "" and on_path or "gdb"
+end
+
 local function pick_executable()
 	return coroutine.create(function(coro)
 		local path =
@@ -58,6 +67,11 @@ return {
 				command = codelldb_command(),
 				args = { "--port", "${port}" },
 			},
+		},
+		cppdbg = {
+			type = "executable",
+			command = gdb_command(),
+			args = { "--interpreter=dap" },
 		},
 	},
 	configurations = {
