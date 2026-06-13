@@ -82,7 +82,7 @@ return {
 			list = {
 				selection = {
 					preselect = true,
-					auto_insert = true,
+					auto_insert = false,
 				},
 			},
 			menu = {
@@ -111,6 +111,9 @@ return {
 				"tmux",
 			},
 			providers = {
+				lsp = {
+					score_offset = 10,
+				},
 				tmux = {
 					name = "tmux",
 					module = "blink-cmp-tmux",
