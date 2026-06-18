@@ -30,7 +30,7 @@ return {
 					},
 				}
 			end,
-			mode = "v",
+			mode = { "v", "x" },
 			desc = "Format selection",
 		},
 	},

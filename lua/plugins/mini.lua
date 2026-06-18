@@ -358,6 +358,7 @@ return {
 	dependencies = {
 		{ "nvim-mini/mini.snippets", version = false },
 		{ "nvim-mini/mini.clue", version = false },
+		"https://github.com/nvim-mini/mini.base16",
 	},
 	config = function()
 		setup_mini_notify(require("mini.notify").setup)

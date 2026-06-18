@@ -1,9 +1,9 @@
 -- require "profiler"
 require "config.options"
 require "config.diagnostics"
-require "config.colors"
 
 require "config.lazy"
+require "config.colors"
 
 require "config.commands"
 require "config.keymaps"
