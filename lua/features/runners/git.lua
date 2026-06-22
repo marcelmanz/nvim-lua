@@ -12,6 +12,8 @@ vim.api.nvim_create_user_command("GitBlameLine", function()
 	)
 end, { desc = "Run tig blame on current line in tmux window" })
 
+vim.keymap.set("n", "<leader>gb", "<cmd>GitBlameLine<cr>")
+
 vim.api.nvim_create_user_command("GitBlameFile", function()
 	local filepath = vim.fn.expand "%:p"
 	tmux.create_tmux_command("git blame " .. filepath)

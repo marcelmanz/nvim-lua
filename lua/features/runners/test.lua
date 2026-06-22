@@ -17,6 +17,23 @@ local function get_rust_test_under_cursor()
 	return nil
 end
 
+local function get_cpp_test_under_cursor()
+	local current_line_num = vim.api.nvim_win_get_cursor(0)[1]
+
+	for i = current_line_num, 1, -1 do
+		local line = vim.api.nvim_buf_get_lines(0, i - 1, i, false)[1]
+		if line then
+			local suite, name =
+				line:match "TEST_?[FP]?%s*%(%s*([%w_]+)%s*,%s*([%w_]+)%s*%)"
+			if suite and name then
+				return suite .. "." .. name
+			end
+		end
+	end
+
+	return nil
+end
+
 local function RunFileTests()
 	local fname = vim.fn.expand "%:t"
 	local filepath = vim.fn.expand "%:p"
@@ -105,6 +122,35 @@ local function RunFileTests()
 				.. " -vv"
 			tmux.create_tmux_persistent_command(cmd)
 		end
+	elseif ext == "cpp" or ext == "cc" or ext == "cxx" then
+		local project_root = vim.fn.getcwd()
+		local build_dir = project_root .. "/build"
+		local target = vim.fn.expand "%:t:r"
+		local binary = build_dir .. "/" .. target
+		local specific_test = get_cpp_test_under_cursor()
+
+		local run_cmd = binary
+		if specific_test then
+			run_cmd = run_cmd .. " --gtest_filter=" .. specific_test
+		end
+
+		local cmd = string.format(
+			"cmake -B %s && cmake --build %s --target %s --parallel 8 && %s",
+			build_dir,
+			build_dir,
+			target,
+			run_cmd
+		)
+
+		if project_root:match "network%-manager" then
+			cmd = string.format(
+				'nix develop %s --command bash -c "%s"',
+				vim.fn.expand "~/clones/own/dev-templates/network-manager",
+				cmd
+			)
+		end
+
+		tmux.create_tmux_persistent_command(cmd)
 	else
 		print "RunTests: unsupported filetype"
 	end

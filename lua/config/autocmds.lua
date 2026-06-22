@@ -150,6 +150,23 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
+local last_place_group =
+	vim.api.nvim_create_augroup("LastPlace", { clear = true })
+vim.api.nvim_create_autocmd("BufReadPost", {
+	group = last_place_group,
+	callback = function(ev)
+		local exclude = { "gitcommit", "gitrebase" }
+		if vim.tbl_contains(exclude, vim.bo[ev.buf].filetype) then
+			return
+		end
+		local mark = vim.api.nvim_buf_get_mark(ev.buf, '"')
+		local line_count = vim.api.nvim_buf_line_count(ev.buf)
+		if mark[1] > 0 and mark[1] <= line_count then
+			pcall(vim.api.nvim_win_set_cursor, 0, mark)
+		end
+	end,
+})
+
 local auto_reload_group =
 	vim.api.nvim_create_augroup("AutoReload", { clear = true })
 vim.api.nvim_create_autocmd(

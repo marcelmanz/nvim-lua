@@ -30,7 +30,7 @@ return {
 					},
 				}
 			end,
-			mode = "v",
+			mode = { "v", "x" },
 			desc = "Format selection",
 		},
 	},
@@ -75,6 +75,11 @@ return {
 				tombi = {
 					command = "tombi",
 					prepend_args = { "format", "--offline", "-v" },
+				},
+				rumdl = {
+					prepend_args = {
+						"fmt",
+					},
 				},
 				cbfmt = {
 					prepend_args = {
@@ -126,6 +131,7 @@ return {
 				scss = { "prettierd", "prettier", stop_after_first = true },
 				markdown = {
 					"prettierd",
+					"rumdl",
 					"dprint",
 					"cbfmt",
 					stop_after_first = true,

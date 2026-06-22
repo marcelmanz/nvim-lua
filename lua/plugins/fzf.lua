@@ -83,5 +83,12 @@ return {
 			end,
 			desc = "Find Files",
 		},
+		{
+			"<leader>gi",
+			function()
+				require("fzf-lua").git_status()
+			end,
+			desc = "Git status",
+		},
 	},
 }
