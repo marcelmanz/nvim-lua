@@ -109,6 +109,15 @@
             ];
           };
           xdg.configFile."nvim".source = ./.;
+
+          # ponytail: store files have mtime 0, so nvim's luac bytecode
+          # cache (keyed on path+mtime) serves stale bytecode after a
+          # redeploy that changes file contents but not path/mtime. Clear it
+          # on every switch so nvim recompiles from the new files.
+          home.activation.clearNvimLuacCache =
+            lib.hm.dag.entryAfter ["linkGeneration"] ''
+              rm -rf "${config.xdg.cacheHome}/nvim/luac"
+            '';
         };
       };
     }
