@@ -1,7 +1,7 @@
 vim.cmd.set "t_Co=256"
 
 local preferred = {
-	light = "minispring",
+	light = "modus-operandi",
 	dark = "github_dark_dimmed",
 }
 local fallback = {
@@ -41,6 +41,16 @@ if bg == "dark" then
 		"@ref.number.markdown",
 		{ fg = "#ff79c6", bold = false }
 	)
+else
+	-- if vim.o.background == "light" then
+	-- 	vim.api.nvim_set_hl(0, "ColorColumn", { bg = "#e8ece6" })
+	-- 	vim.api.nvim_set_hl(0, "CursorLine", { bg = "#d5d9d3" })
+	-- 	-- minispring uses yellow (#676900, dark olive) as Search bg — looks brown on light.
+	-- 	-- Override with yellow_bg (#e6ed62, light yellow) which is the proper light-theme bg variant.
+	-- 	vim.api.nvim_set_hl(0, "Search", { fg = "#2c2e33", bg = "#e6ed62" })
+	-- 	vim.api.nvim_set_hl(0, "IncSearch", { fg = "#2c2e33", bg = "#e6ed62" })
+	-- 	vim.api.nvim_set_hl(0, "CurSearch", { fg = "#2c2e33", bg = "#e6ed62" })
+	-- end
 end
 
 --i vim: ts=2 sts=2 sw=2 et
