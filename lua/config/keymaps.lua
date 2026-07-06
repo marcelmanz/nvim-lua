@@ -70,8 +70,6 @@ vim.keymap.set(
 	[[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]]
 )
 
-vim.keymap.set("n", "<Leader>w", ":w<cr>", opts)
-vim.keymap.set("n", "<Leader>W", ":w!<cr>", opts)
 vim.keymap.set("n", "<Leader>nw", ":noautocmd w<cr>", opts)
 vim.keymap.set("c", "w!!", "SudaWrite<cr>", { noremap = false, silent = false })
 
@@ -143,11 +141,6 @@ vim.keymap.set("n", "<Leader>Q", function()
 	saveSession { force = true, immediate = true }
 	vim.cmd "qa!"
 end, opts)
-
-vim.keymap.set("n", "<Leader>e", ":e<cr>", opts)
-
-vim.keymap.set("n", "<Leader>sj", ":split<cr>", opts)
-vim.keymap.set("n", "<Leader>sl", ":vsplit<cr>", opts)
 
 vim.keymap.set(
 	"n",
