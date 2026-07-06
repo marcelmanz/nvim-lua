@@ -132,15 +132,11 @@ local function saveSession(opts)
 	end
 end
 
-vim.keymap.set("n", "<Leader>q", function()
-	saveSession()
-	vim.cmd "q"
-end, opts)
-
-vim.keymap.set("n", "<Leader>Q", function()
-	saveSession { force = true, immediate = true }
-	vim.cmd "qa!"
-end, opts)
+vim.api.nvim_create_autocmd("QuitPre", {
+	callback = function()
+		saveSession { immediate = true }
+	end,
+})
 
 vim.keymap.set(
 	"n",
