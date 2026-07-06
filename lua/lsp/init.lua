@@ -35,3 +35,11 @@ local lsp_servers = {
 for _, lsp_name in ipairs(lsp_servers) do
 	vim.lsp.enable(lsp_name)
 end
+
+vim.api.nvim_create_autocmd("VimLeavePre", {
+	callback = function()
+		for _, client in ipairs(vim.lsp.get_clients()) do
+			client:stop(true)
+		end
+	end,
+})
