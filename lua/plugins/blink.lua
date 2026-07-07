@@ -1,13 +1,14 @@
 return {
 	"saghen/blink.cmp",
 	-- Lazy load completion on insert mode
-	event = "InsertEnter",
+	event = { "InsertEnter", "CmdlineEnter" },
 	-- optional: provides snippets for the snippet source
 	dependencies = {
 		"echasnovski/mini.snippets",
 		-- { "rafamadriz/friendly-snippets", lazy = true },
 		-- LuaSnip moved to optional - only load if using full profile
 		"mgalliou/blink-cmp-tmux",
+		"mikavilpas/blink-ripgrep.nvim",
 	},
 
 	-- use a release tag to download pre-built binaries
@@ -77,16 +78,29 @@ return {
 
 		snippets = { preset = "mini_snippets" },
 
+		cmdline = {
+			keymap = {
+				preset = "inherit",
+				["<Tab>"] = { "select_next", "fallback" },
+				["<S-Tab>"] = { "select_prev", "fallback" },
+			},
+			completion = {
+				menu = { auto_show = true },
+				list = { selection = { preselect = false, auto_insert = true } },
+			},
+		},
+
 		-- Default list of enabled providers defined so that you can extend it
 		-- elsewhere in your config, without redefining it, due to `opts_extend`
 		sources = {
 			default = {
-				-- "lazydev",
+				"lazydev",
 				"lsp",
 				"snippets",
-				"path",
 				"buffer",
+				"path",
 				"tmux",
+				"ripgrep",
 			},
 			providers = {
 				lsp = {
@@ -103,12 +117,20 @@ return {
 					min_keyword_length = 2,
 					score_offset = 4,
 				},
-				-- lazydev = {
-				-- 	name = "LazyDev",
-				-- 	module = "lazydev.integrations.blink",
-				-- 	-- make lazydev completions top priority (see `:h blink.cmp`)
-				-- 	score_offset = 100,
-				-- }, -- Disabled for minimal config
+				cmdline = {
+					name = "cmd"
+				},
+				lazydev = {
+					name = "lazydev",
+					module = "lazydev.integrations.blink",
+					-- make lazydev completions top priority (see `:h blink.cmp`)
+					score_offset = 100,
+				},
+				ripgrep = {
+					name = "rg",
+					module = "blink-ripgrep",
+					score_offset = -3,
+				},
 			},
 		},
 

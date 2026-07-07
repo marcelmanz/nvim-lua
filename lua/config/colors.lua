@@ -45,7 +45,18 @@ else
 	vim.api.nvim_set_hl(0, "ColorColumn", { bg = "#e8ece6" })
 	vim.api.nvim_set_hl(0, "CursorLine", { bg = "#d5d9d3" })
 
-	-- Override with search with yellow_bg (#e6ed62, light yellow) which is has more contrast 
+	-- Blend the mini.notify solid border into the body so it stops
+	-- rendering as a fat grey band on modus-operandi
+	vim.api.nvim_set_hl(0, "MiniNotifyBorder", { link = "MiniNotifyNormal" })
+	vim.api.nvim_set_hl(0, "MiniClueNormal", { bg = "#ffffff" })
+	vim.api.nvim_set_hl(0, "MiniClueBorder", { link = "MiniClueNormal" })
+	vim.api.nvim_set_hl(0, "MiniClueNextKey", { fg = "#0031a9", bg = "#ffffff", bold = true })
+	vim.api.nvim_set_hl(0, "MiniClueNextKeyWithPostkeys", { fg = "#a60000", bg = "#ffffff", bold = true })
+	vim.api.nvim_set_hl(0, "MiniClueDescSingle", { link = "MiniClueNormal" })
+	vim.api.nvim_set_hl(0, "MiniClueDescGroup", { fg = "#884900", bg = "#ffffff" })
+	vim.api.nvim_set_hl(0, "FloatBorder", { link = "NormalFloat" })
+
+	-- Override with search with yellow_bg (#e6ed62, light yellow) which is has more contrast
 	vim.api.nvim_set_hl(0, "Search", { fg = "#2c2e33", bg = "#e6ed62" })
 	vim.api.nvim_set_hl(0, "IncSearch", { fg = "#2c2e33", bg = "#e6ed62" })
 	vim.api.nvim_set_hl(0, "CurSearch", { fg = "#2c2e33", bg = "#e6ed62" })

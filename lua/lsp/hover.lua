@@ -70,6 +70,7 @@ function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
 	opts = opts or {}
 	opts.max_width = max_width
 	opts.max_height = max_height
+	opts.border = "none"
 
 	return orig_util_open_floating_preview(merged_contents, syntax, opts, ...)
 end
