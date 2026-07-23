@@ -12,6 +12,9 @@ require "neovide"
 require "config.autocmds"
 require "lsp"
 
+-- custom plguins
+require "highlighter".setup()
+
 -- features
 require "features.persistend-qfl"
 require "features.update-fe-version"
