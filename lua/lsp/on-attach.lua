@@ -113,6 +113,9 @@ local on_attach = function(client, bufnr)
 	end, { desc = "Copy selected lines errors" })
 
 	client.server_capabilities.documentFormattingProvider = true
+
+	-- mini.clue: re-install `g` trigger after on_attach creates buf-local g* mappings,
+	pcall(require("mini.clue").ensure_buf_triggers, bufnr)
 end
 
 M.on_attach = on_attach
