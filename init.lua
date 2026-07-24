@@ -12,8 +12,7 @@ require "neovide"
 require "config.autocmds"
 require "lsp"
 
--- custom plguins
-require "highlighter".setup()
+-- custom plugins
 
 -- features
 require "features.persistend-qfl"
