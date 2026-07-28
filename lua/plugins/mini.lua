@@ -409,11 +409,11 @@ return {
 		require("mini.pick").setup {
 			window = {
 				---@type vim.api.keyset.win_config
-				config = { 
+				config = {
 					height = 10,
 					width = 30,
-				}
-			}
+				},
+			},
 		}
 		vim.ui.select = MiniPick.ui_select
 

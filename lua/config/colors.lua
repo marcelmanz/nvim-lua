@@ -50,10 +50,22 @@ else
 	vim.api.nvim_set_hl(0, "MiniNotifyBorder", { link = "MiniNotifyNormal" })
 	vim.api.nvim_set_hl(0, "MiniClueNormal", { bg = "#ffffff" })
 	vim.api.nvim_set_hl(0, "MiniClueBorder", { link = "MiniClueNormal" })
-	vim.api.nvim_set_hl(0, "MiniClueNextKey", { fg = "#0031a9", bg = "#ffffff", bold = true })
-	vim.api.nvim_set_hl(0, "MiniClueNextKeyWithPostkeys", { fg = "#a60000", bg = "#ffffff", bold = true })
+	vim.api.nvim_set_hl(
+		0,
+		"MiniClueNextKey",
+		{ fg = "#0031a9", bg = "#ffffff", bold = true }
+	)
+	vim.api.nvim_set_hl(
+		0,
+		"MiniClueNextKeyWithPostkeys",
+		{ fg = "#a60000", bg = "#ffffff", bold = true }
+	)
 	vim.api.nvim_set_hl(0, "MiniClueDescSingle", { link = "MiniClueNormal" })
-	vim.api.nvim_set_hl(0, "MiniClueDescGroup", { fg = "#884900", bg = "#ffffff" })
+	vim.api.nvim_set_hl(
+		0,
+		"MiniClueDescGroup",
+		{ fg = "#884900", bg = "#ffffff" }
+	)
 	vim.api.nvim_set_hl(0, "FloatBorder", { link = "NormalFloat" })
 
 	-- Override with search with yellow_bg (#e6ed62, light yellow) which is has more contrast

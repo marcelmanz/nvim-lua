@@ -118,7 +118,7 @@ return {
 					score_offset = 4,
 				},
 				cmdline = {
-					name = "cmd"
+					name = "cmd",
 				},
 				lazydev = {
 					name = "lazydev",
