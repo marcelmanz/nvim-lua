@@ -395,6 +395,7 @@ return {
 	dependencies = {
 		{ "nvim-mini/mini.snippets", version = false },
 		{ "nvim-mini/mini.clue", version = false },
+		{ "nvim-mini/mini.pick", version = false },
 		"https://github.com/nvim-mini/mini.base16",
 	},
 	config = function()
@@ -403,6 +404,18 @@ return {
 		setup_mini_starter(require("mini.starter").setup)
 		setup_mini_statusline(require("mini.statusline").setup)
 		setup_mini_clue(require "mini.clue")
+
+		-- mini.pick: picker, also powers vim.ui.select
+		require("mini.pick").setup {
+			window = {
+				---@type vim.api.keyset.win_config
+				config = { 
+					height = 10,
+					width = 30,
+				}
+			}
+		}
+		vim.ui.select = MiniPick.ui_select
 
 		-- mini.operators: cr replace (criw, crr, cr$). gr* kept for native LSP.
 		require("mini.operators").setup {

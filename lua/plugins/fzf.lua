@@ -1,28 +1,50 @@
+---@alias FzfKeyAction "accept" | "cancel" | "toggle-search" | "select-all" | "deselect-all" | "half-page-down" | "half-page-up"
+
+---@class FzfLuaConfigDefaults
+---@field keymap { fzf: table<string, FzfKeyAction> }
+
+---@class FzfLuaConfig
+---@field defaults FzfLuaConfigDefaults
+
+---@class FzfLuaActions
+---@field grep_lgrep function
+
+---@class FzfLua
+---@field setup fun(opts?: table)
+---@field register_ui_select fun(opts?: table|function)
+---@field files fun(opts?: table)
+---@field grep_cword fun(opts?: table)
+---@field grep fun(opts?: table)
+---@field quickfix fun(opts?: table)
+---@field resume fun(opts?: table)
+---@field lsp_references fun(opts?: table)
+---@field git_status fun(opts?: table)
+---@field actions FzfLuaActions
+---@field config FzfLuaConfig
+
 return {
 	"ibhagwan/fzf-lua",
-	-- optional for icon support
-	-- dependencies = { "nvim-tree/nvim-web-devicons" },
-	-- or if using mini.icons/mini.nvim
-	-- dependencies = { "nvim-mini/mini.icons" },
-	opts = {},
+	dependencies = { "echasnovski/mini.icons" },
 	enabled = true,
 	config = function()
-		local actions = require("fzf-lua").actions
-		local config = require "fzf-lua.config"
+		---@type FzfLua
+		local fzf = require "fzf-lua"
+
+		local actions = fzf.actions
+		local config = fzf.config
 
 		config.defaults.keymap.fzf["ctrl-q"] = "accept"
+		config.defaults.keymap.fzf["ctrl-x"] = "cancel"
 
-		require("fzf-lua").setup {
-			{
-				"borderless",
-				files = {
-					grep = {
-						["ctrl-r"] = actions.grep_lgrep,
-					},
+		fzf.setup {
+			"borderless",
+			files = {
+				grep = {
+					["ctrl-r"] = actions.grep_lgrep,
 				},
-				keymap = {
-					fzf = { ["ctrl-g"] = "toggle-search" },
-				},
+			},
+			keymap = {
+				fzf = { ["ctrl-g"] = "toggle-search" },
 			},
 			fzf_colors = {
 				["fg"] = { "fg", "Normal" },
@@ -39,56 +61,72 @@ return {
 				["header"] = { "fg", "Comment" },
 			},
 		}
+
+		-- fzf.register_ui_select() -- to register as visual.pick on nvim
 	end,
 	keys = {
 		{
 			"<Leader>f",
 			function()
-				require("fzf-lua").files()
+				---@type FzfLua
+				local fzf = require "fzf-lua"
+				fzf.files()
 			end,
 			desc = "Find Files",
 		},
 		{
 			"<leader>rw",
 			function()
-				require("fzf-lua").grep_cword()
+				---@type FzfLua
+				local fzf = require "fzf-lua"
+				fzf.grep_cword()
 			end,
 			desc = "Fzf Grep Current Word",
 		},
 		{
 			"<Leader>rg",
 			function()
-				require("fzf-lua").grep()
+				---@type FzfLua
+				local fzf = require "fzf-lua"
+				fzf.grep()
 			end,
 			desc = "Find Files via grep",
 		},
 		{
 			"<Leader>rq",
 			function()
-				require("fzf-lua").quickfix()
+				---@type FzfLua
+				local fzf = require "fzf-lua"
+				fzf.quickfix()
 			end,
-			desc = "Find Files via grep",
+			desc = "Find Quickfix",
 		},
 		{
 			"<Leader>rf",
 			function()
-				require("fzf-lua").resume()
+				---@type FzfLua
+				local fzf = require "fzf-lua"
+				fzf.resume()
 			end,
 			desc = "Resume an Fzf action",
 		},
 		{
 			"<leader>gr",
 			function()
-				require("fzf-lua").lsp_references()
+				---@type FzfLua
+				local fzf = require "fzf-lua"
+				fzf.lsp_references()
 			end,
-			desc = "Find Files",
+			desc = "LSP References",
 		},
 		{
 			"<leader>gi",
 			function()
-				require("fzf-lua").git_status()
+				---@type FzfLua
+				local fzf = require "fzf-lua"
+				fzf.git_status()
 			end,
-			desc = "Git status",
+			desc = "Git Status",
 		},
 	},
 }
