@@ -43,7 +43,7 @@ if bg == "dark" then
 	)
 else
 	vim.api.nvim_set_hl(0, "ColorColumn", { bg = "#e8ece6" })
-	vim.api.nvim_set_hl(0, "CursorLine", { bg = "#d5d9d3" })
+	vim.api.nvim_set_hl(0, "CursorLine", { bg = "#f7f8f6" })
 
 	-- Blend the mini.notify solid border into the body so it stops
 	-- rendering as a fat grey band on modus-operandi
