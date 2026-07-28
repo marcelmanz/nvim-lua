@@ -298,6 +298,39 @@ local function setup_mini_statusline(setup_statusline)
 end
 
 local function setup_mini_clue(miniclue)
+	local text_objects = {
+		{ "w", "word" },
+		{ "W", "WORD" },
+		{ "s", "sentence" },
+		{ "p", "paragraph" },
+		{ "t", "tag" },
+		{ '"', "double quotes" },
+		{ "'", "single quotes" },
+		{ "`", "backticks" },
+		{ "(", "parentheses" },
+		{ ")", "parentheses" },
+		{ "b", "parentheses" },
+		{ "[", "brackets" },
+		{ "]", "brackets" },
+		{ "{", "braces" },
+		{ "}", "braces" },
+		{ "B", "braces" },
+		{ "<", "angle brackets" },
+		{ ">", "angle brackets" },
+	}
+
+	local op_clues = {}
+	for _, o in ipairs(text_objects) do
+		table.insert(
+			op_clues,
+			{ mode = "o", keys = "a" .. o[1], desc = "around " .. o[2] }
+		)
+		table.insert(
+			op_clues,
+			{ mode = "o", keys = "i" .. o[1], desc = "inside " .. o[2] }
+		)
+	end
+
 	miniclue.setup {
 		window = {
 			-- Floating window config: width auto-fits longest clue line
@@ -337,6 +370,9 @@ local function setup_mini_clue(miniclue)
 			{ mode = "n", keys = "<C-w>" },
 			-- `z` key
 			{ mode = { "n", "x" }, keys = "z" },
+			-- Operator-pending text objects (after `gh`, `d`, `c`, …)
+			{ mode = "o", keys = "a" },
+			{ mode = "o", keys = "i" },
 		},
 		clues = {
 			miniclue.gen_clues.square_brackets(),
@@ -346,6 +382,7 @@ local function setup_mini_clue(miniclue)
 			miniclue.gen_clues.registers(),
 			miniclue.gen_clues.windows(),
 			miniclue.gen_clues.z(),
+			op_clues,
 		},
 	}
 end
@@ -358,6 +395,7 @@ return {
 	dependencies = {
 		{ "nvim-mini/mini.snippets", version = false },
 		{ "nvim-mini/mini.clue", version = false },
+		{ "nvim-mini/mini.pick", version = false },
 		"https://github.com/nvim-mini/mini.base16",
 	},
 	config = function()
@@ -366,6 +404,18 @@ return {
 		setup_mini_starter(require("mini.starter").setup)
 		setup_mini_statusline(require("mini.statusline").setup)
 		setup_mini_clue(require "mini.clue")
+
+		-- mini.pick: picker, also powers vim.ui.select
+		require("mini.pick").setup {
+			window = {
+				---@type vim.api.keyset.win_config
+				config = {
+					height = 10,
+					width = 30,
+				},
+			},
+		}
+		vim.ui.select = MiniPick.ui_select
 
 		-- mini.operators: cr replace (criw, crr, cr$). gr* kept for native LSP.
 		require("mini.operators").setup {

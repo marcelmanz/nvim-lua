@@ -12,6 +12,8 @@ require "neovide"
 require "config.autocmds"
 require "lsp"
 
+-- custom plugins
+
 -- features
 require "features.persistend-qfl"
 require "features.update-fe-version"

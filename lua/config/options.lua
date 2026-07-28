@@ -78,9 +78,14 @@ vim.opt.showcmd = false
 require("vim._core.ui2").enable()
 
 vim.opt.termguicolors = true
-local _f = io.open(vim.fn.expand("$HOME/.cache/.theme_mode"), "r")
-vim.o.background = _f and (_f:read("*l") or "light") or "light"
-if _f then _f:close() end
-pcall(vim.cmd.colorscheme, vim.o.background == "light" and "lunaperche" or "habamax")
+local _f = io.open(vim.fn.expand "$HOME/.cache/.theme_mode", "r")
+vim.o.background = _f and (_f:read "*l" or "light") or "light"
+if _f then
+	_f:close()
+end
+pcall(
+	vim.cmd.colorscheme,
+	vim.o.background == "light" and "lunaperche" or "habamax"
+)
 
 -- vim: ts=2 sts=2 sw=2 et
