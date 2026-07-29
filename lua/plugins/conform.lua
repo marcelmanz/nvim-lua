@@ -7,7 +7,13 @@ return {
 		{
 			"ff",
 			function()
-				require("conform").format()
+				if vim.bo.filetype == "markdown" then
+					require("conform").format({}, function()
+						require("lib.markdown-links").refify_buffer(0)
+					end)
+				else
+					require("conform").format()
+				end
 			end,
 			desc = "Format buffer",
 		},

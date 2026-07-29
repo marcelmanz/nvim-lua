@@ -10,14 +10,25 @@
 
 local M = {}
 
-local URL = "https?://[%w-_~:/.?#%@!$&'*+,;=%-]+"
+local URL = "https?://[%w_~/:.?#@!$&'*+,;=%%()%-]+"
 local INLINE = "%[([^%]]*)%]%(([^%)]+)%)"
 local AUTOLINK = "<(https?://[^>]+)>"
 local FENCE = "^%s*```"
 local REF_DEF = "^%s*%[(%d+)%]:%s*(%S+)"
 
-local function strip_trailing(url)
-	return url:gsub("[%)%.,;:!?]+$", "")
+-- trim trailing punctuation that's not part of the URL. Balanced parens
+-- are kept (e.g. wikipedia ...Foo_(bar)); an unbalanced trailing `)` is
+-- prose, so strip it. ponytail: cannot detect a leading `(` paired with a
+-- stripped `)` without a real parser, so `(https://x)` -> `([link0][0`.
+local function trim_url(url)
+	url = url:gsub("[.,;:!?]+$", "")
+	local opens = select(2, url:gsub("%(", ""))
+	local closes = select(2, url:gsub("%)", ""))
+	while closes > opens and url:sub(-1) == ")" do
+		url = url:sub(1, -2)
+		closes = closes - 1
+	end
+	return url
 end
 
 --- register a url, reusing an existing reference number when known
@@ -45,7 +56,7 @@ local function transform_segment(seg, state)
 		)
 	end)
 	seg = seg:gsub(URL, function(url)
-		url = strip_trailing(url)
+		url = trim_url(url)
 		local n = register(state, url)
 		return string.format("[link%d][%d]", n, n)
 	end)
@@ -203,6 +214,24 @@ function M._selfcheck()
 		{ "```bash", "curl https://x.io", "```" },
 		{},
 		{ "```bash", "curl https://x.io", "```" }
+	)
+	-- percent-encoded url stays intact (the reported bug)
+	case(
+		{ "see https://x.io/steps/%7Babc%7D here" },
+		{ "[0]: https://x.io/steps/%7Babc%7D" },
+		{ "see [link0][0] here" }
+	)
+	-- balanced parens kept (wikipedia-style)
+	case(
+		{ "see https://en.wikipedia.org/wiki/Foo_(bar) end" },
+		{ "[0]: https://en.wikipedia.org/wiki/Foo_(bar)" },
+		{ "see [link0][0] end" }
+	)
+	-- sentence period after a paren'd url is stripped, parens kept
+	case(
+		{ "see https://en.wikipedia.org/wiki/Foo_(bar). end" },
+		{ "[0]: https://en.wikipedia.org/wiki/Foo_(bar)" },
+		{ "see [link0][0] end" }
 	)
 
 	-- buffer: reuse existing trailing refs, add new after
