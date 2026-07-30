@@ -151,6 +151,10 @@ vim.api.nvim_create_user_command(
 
 local mdwatch_job_id = nil
 
+vim.api.nvim_create_user_command("MdRefLinks", function()
+	require("lib.markdown-links").refify_buffer(0)
+end, { desc = "Move inline/bare markdown links to bottom reference links" })
+
 vim.api.nvim_create_user_command("MdWatch", function()
 	if mdwatch_job_id then
 		vim.fn.jobstop(mdwatch_job_id)

@@ -1,6 +1,8 @@
 -- Floating preview override: convert markdown links to [n] footnote references
 -- Also binds gx in every LSP float window to open URLs.
 
+local refify_lines = require("lib.markdown-links").refify_lines
+
 local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
 
 ---@diagnostic disable-next-line: duplicate-set-field
@@ -9,27 +11,7 @@ function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
 		return
 	end
 
-	local link_index = 0
-	local references = {}
-	local unique_refs = {}
-
-	for i, line in ipairs(contents) do
-		contents[i] = line:gsub("%[(.-)%]%((.-)%)", function(text, url)
-			local ref
-			if unique_refs[url] then
-				ref = string.format("[%d]", unique_refs[url])
-			else
-				ref = string.format("[%d]", link_index)
-				unique_refs[url] = link_index
-				table.insert(
-					references,
-					string.format("[%d]: %s", link_index, url)
-				)
-				link_index = link_index + 1
-			end
-			return string.format("[%s]%s", text, ref)
-		end)
-	end
+	local references = refify_lines(contents)
 
 	local merged_contents = {}
 	local i = 1
