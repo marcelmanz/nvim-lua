@@ -1,6 +1,13 @@
--- also there is "md-oxide"
+-- md-oxide
 return {
-	cmd = { "marksman", "server" },
+	cmd = { "markdown-oxide" },
 	filetypes = { "markdown", "markdown.mdx" },
-	root_markers = { ".marksman.toml", ".git" },
+	root_markers = { ".git", ".obsidian", ".moxide.toml" },
 }
+
+-- marksman
+-- return {
+-- 	cmd = { "marksman", "server" },
+-- 	filetypes = { "markdown", "markdown.mdx" },
+-- 	root_markers = { ".marksman.toml", ".git" },
+-- }

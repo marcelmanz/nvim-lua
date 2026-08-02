@@ -6,9 +6,9 @@ return {
 	config = function()
 		require("highlighter").setup {
 			fuzzy_default = false,
-			-- highlights = {
-			-- 	TextReview = "Visual"
-			-- },
+			highlights = {
+				TextReview = "Visual"
+			},
 		}
 	end,
 }
