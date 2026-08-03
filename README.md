@@ -15,7 +15,7 @@
 Clone the repository and install the plugins:
 
 ```bash
-git clone git@github.com:themarcel/nvim-lua ~/.config/tm-nvim-lua
+git clone git@github.com:marcelmanz/nvim-lua ~/.config/tm-nvim-lua
 NVIM_APPNAME=tm-nvim-lua/ nvim --headless +"Lazy! sync" +qa
 ```
 
