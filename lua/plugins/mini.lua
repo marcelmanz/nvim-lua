@@ -410,8 +410,8 @@ return {
 			window = {
 				---@type vim.api.keyset.win_config
 				config = {
-					height = 10,
-					width = 30,
+					-- height = 10,
+					-- width = 30,
 				},
 			},
 		}

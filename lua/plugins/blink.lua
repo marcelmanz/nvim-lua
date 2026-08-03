@@ -100,7 +100,7 @@ return {
 				"buffer",
 				"path",
 				"tmux",
-				"ripgrep",
+				-- "ripgrep",
 			},
 			providers = {
 				lsp = {
@@ -126,11 +126,11 @@ return {
 					-- make lazydev completions top priority (see `:h blink.cmp`)
 					score_offset = 100,
 				},
-				ripgrep = {
-					name = "rg",
-					module = "blink-ripgrep",
-					score_offset = -3,
-				},
+				-- ripgrep = {
+				-- 	name = "rg",
+				-- 	module = "blink-ripgrep",
+				-- 	score_offset = -3,
+				-- },
 			},
 		},
 
