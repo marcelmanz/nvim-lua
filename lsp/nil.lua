@@ -2,7 +2,7 @@ return {
 	cmd = { "nil" },
 	filetypes = { "nix" },
 	settings = {
-		nil = {
+		["nil"] = {
 			nix = {
 				flake = {
 					autoEvalInputs = false,
