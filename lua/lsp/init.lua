@@ -17,7 +17,6 @@ local lsp_servers = {
 	"lua",
 	"markdown",
 	-- "mdx",
-	"md-oxide",
 	"nix",
 	"ruff",
 	-- "basedpyright",

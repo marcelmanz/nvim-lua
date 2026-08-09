@@ -50,7 +50,7 @@ nvim/
 │  ├─ astro.lua  bash.lua  c.lua
 │  ├─ css.lua  elixir.lua  eslint.lua
 │  ├─ fennel.lua  json.lua  lua.lua
-│  ├─ markdown.lua  md-oxide.lua  mdx.lua
+│  ├─ markdown.lua  mdx.lua
 │  ├─ nil.lua  nix.lua  python.lua
 │  ├─ ruff.lua  rust.lua  svelte.lua
 │  ├─ tailwindcss.lua  toml.lua  typescript.lua
