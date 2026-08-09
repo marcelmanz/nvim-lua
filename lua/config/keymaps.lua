@@ -6,6 +6,16 @@ local opt_ns = { noremap = true, silent = true }
 
 vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 
+vim.keymap.set("n", "q:", function()
+	vim.notify("q: disabled — use : instead", vim.log.levels.WARN)
+end, { desc = "Disabled" })
+vim.keymap.set("n", "q/", function()
+	vim.notify("q/ disabled", vim.log.levels.WARN)
+end, { desc = "Disabled" })
+vim.keymap.set("n", "q?", function()
+	vim.notify("q? disabled", vim.log.levels.WARN)
+end, { desc = "Disabled" })
+
 vim.keymap.set(
 	"n",
 	"k",
