@@ -16,10 +16,6 @@ local AUTOLINK = "<(https?://[^>]+)>"
 local FENCE = "^%s*```"
 local REF_DEF = "^%s*%[(%d+)%]:%s*(%S+)"
 
--- trim trailing punctuation that's not part of the URL. Balanced parens
--- are kept (e.g. wikipedia ...Foo_(bar)); an unbalanced trailing `)` is
--- prose, so strip it. ponytail: cannot detect a leading `(` paired with a
--- stripped `)` without a real parser, so `(https://x)` -> `([link0][0`.
 local function trim_url(url)
 	url = url:gsub("[.,;:!?]+$", "")
 	local opens = select(2, url:gsub("%(", ""))
@@ -177,7 +173,6 @@ function M.refify_buffer(bufnr)
 	vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, out)
 end
 
--- ponytail: self-check, run with `nvim -l lua/lib/markdown-links.lua`
 function M._selfcheck()
 	local function case(input, expect_refs, expect_body)
 		local lines = vim.deepcopy(input)
