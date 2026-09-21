@@ -19,6 +19,8 @@ vim.api.nvim_set_hl(0, "CursorLine", { underline = false })
 
 if bg == "dark" then
 	vim.cmd "hi VertSplit guifg=#373737 guibg=#373737gui=NONE cterm=NONE"
+	vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#2d333b" })
+	vim.api.nvim_set_hl(0, "FloatBorder", { link = "NormalFloat" })
 	vim.api.nvim_set_hl(0, "RefIdentifier", { fg = "#50fa7b", bold = true })
 	vim.api.nvim_create_autocmd("FileType", {
 		pattern = { "markdown", "md" },
