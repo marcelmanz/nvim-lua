@@ -141,6 +141,17 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
+vim.api.nvim_create_autocmd("CmdwinEnter", {
+	callback = function(ev)
+		vim.keymap.set(
+			"n",
+			"qq",
+			"<Cmd>quit<CR>",
+			{ buffer = ev.buf, desc = "Close command-line window" }
+		)
+	end,
+})
+
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "tutor",
 	callback = function(ev)
