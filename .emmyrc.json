@@ -8,6 +8,9 @@
       "?/lua/?/init.lua"
     ]
   },
+  "diagnostics": {
+    "globals": ["vim"]
+  },
   "workspace": {
     "checkThirdParty": false,
     "library": [

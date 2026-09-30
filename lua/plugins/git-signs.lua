@@ -33,26 +33,21 @@ return {
 					vim.keymap.set(mode, l, r, opts)
 				end
 
-				-- Navigation
 				map({ "n", "v" }, "]c", function()
 					if vim.wo.diff then
-						return "]c"
+						vim.cmd.normal { "]c", bang = true }
+					else
+						gs.nav_hunk("next", { target = "all" })
 					end
-					vim.schedule(function()
-						gs.next_hunk()
-					end)
-					return "<Ignore>"
-				end, { expr = true, desc = "Jump to next hunk" })
+				end, { desc = "Jump to next hunk" })
 
 				map({ "n", "v" }, "[c", function()
 					if vim.wo.diff then
-						return "[c"
+						vim.cmd.normal { "[c", bang = true }
+					else
+						gs.nav_hunk("prev", { target = "all" })
 					end
-					vim.schedule(function()
-						gs.prev_hunk()
-					end)
-					return "<Ignore>"
-				end, { expr = true, desc = "Jump to previous hunk" })
+				end, { desc = "Jump to previous hunk" })
 
 				-- Actions
 				-- visual mode
@@ -98,6 +93,12 @@ return {
 					"<leader>hp",
 					gs.preview_hunk,
 					{ desc = "preview git hunk" }
+				)
+				map(
+					"n",
+					"<leader>hi",
+					gs.preview_hunk_inline,
+					{ desc = "preview git hunk inline" }
 				)
 				map("n", "<leader>hb", function()
 					gs.blame_line { full = false }
