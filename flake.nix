@@ -2,15 +2,17 @@
   description = "Marcel's Neovim Config";
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     flake-utils.url = "github:numtide/flake-utils";
   };
 
   outputs = {
     self,
     nixpkgs,
+    nixpkgs-unstable,
     flake-utils,
   }: let
-    neovimTools = pkgs:
+    neovimTools = pkgs: pkgs-unstable:
       with pkgs; [
         # Core
         luajit
@@ -47,8 +49,13 @@
         rust-analyzer
         taplo
         typescript-language-server
+        vtsls
         vale-ls
         mdx-language-server
+        svelte-language-server
+        qt6.qtdeclarative # qmlls
+        ruff
+        emmylua-ls # emmylua_ls
 
         # Formatters
         alejandra
@@ -61,8 +68,10 @@
         fixjson
         python3Packages.isort
         oxlint
+        pkgs-unstable.oxfmt # not in nixos-25.11 yet
         prettier
         prettierd
+        rumdl
         rustfmt
         shfmt
         emmylua-check
@@ -72,6 +81,7 @@
 
         # Debuggers
         delve
+        gdb
         vscode-extensions.vadimcn.vscode-lldb
 
         # CLI Tools
@@ -85,6 +95,9 @@
         yarn
         podman
         difftastic
+        diffutils
+        tmux
+        elixir
         util-linux
         coreutils
         curl
@@ -103,7 +116,7 @@
         config = {
           programs.neovim = {
             enable = true;
-            extraPackages = neovimTools pkgs;
+            extraPackages = neovimTools pkgs (import nixpkgs-unstable {inherit (pkgs) system;});
             plugins = [
               pkgs.vimPlugins.nvim-treesitter.withAllGrammars
             ];
@@ -119,9 +132,10 @@
     // flake-utils.lib.eachDefaultSystem (
       system: let
         pkgs = import nixpkgs {inherit system;};
+        pkgs-unstable = import nixpkgs-unstable {inherit system;};
       in {
         devShells.default = pkgs.mkShell {
-          packages = neovimTools pkgs;
+          packages = neovimTools pkgs pkgs-unstable;
           shellHook = ''
             echo "Lua shell on ${pkgs.luajit.version} – happy vim!"
           '';
