@@ -1,3 +1,27 @@
+local function make_format()
+	local makefile = vim.fs.find(
+		{ "Makefile", "makefile", "GNUmakefile" },
+		{ upward = true, path = vim.fs.dirname(vim.api.nvim_buf_get_name(0)) }
+	)[1]
+	if not makefile then
+		return false
+	end
+	local cwd = vim.fs.dirname(makefile)
+	if
+		vim.system({ "make", "-n", "format" }, { cwd = cwd }):wait().code ~= 0
+	then
+		return false
+	end
+	vim.cmd "silent update"
+	local result = vim.system({ "make", "format" }, { cwd = cwd }):wait()
+	if result.code ~= 0 then
+		vim.notify(result.stderr, vim.log.levels.ERROR)
+	else
+		vim.cmd "edit"
+	end
+	return true
+end
+
 return {
 	"stevearc/conform.nvim",
 	lazy = true,
@@ -7,6 +31,9 @@ return {
 		{
 			"ff",
 			function()
+				if make_format() then
+					return
+				end
 				if vim.bo.filetype == "markdown" then
 					require("conform").format({}, function()
 						require("lib.markdown-links").refify_buffer(0)
