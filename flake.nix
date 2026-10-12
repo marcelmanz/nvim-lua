@@ -97,7 +97,7 @@
         difftastic
         diffutils
         tmux
-        elixir
+        beamPackages.elixir
         util-linux
         coreutils
         curl
@@ -116,7 +116,7 @@
         config = {
           programs.neovim = {
             enable = true;
-            extraPackages = neovimTools pkgs (import nixpkgs-unstable {inherit (pkgs) system;});
+            extraPackages = neovimTools pkgs (import nixpkgs-unstable {system = pkgs.stdenv.hostPlatform.system;});
             plugins = [
               pkgs.vimPlugins.nvim-treesitter.withAllGrammars
             ];
