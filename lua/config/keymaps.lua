@@ -326,7 +326,7 @@ end)
 vim.keymap.set("n", "<C-^>", "<cmd>buffer #<CR>", { desc = "Alternate buffer" })
 
 vim.keymap.set({ "v", "n" }, "<leader>yf", function()
-	vim.cmd [[silent!!yarn eslint --fix %]]
+	vim.cmd [[silent!!yarn eslint --fix %]] -- bin: yarn
 end, { desc = "Yarn eslint --fix current file" })
 
 local function run_shell(shell, cmd)

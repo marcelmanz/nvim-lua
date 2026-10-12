@@ -104,6 +104,17 @@ return {
 						".prettierrc",
 					},
 				},
+				prettier_json = {
+					command = "prettier",
+					args = {
+						"--parser",
+						"json",
+						"--object-wrap",
+						"collapse",
+						"--stdin-filepath",
+						"$FILENAME",
+					},
+				},
 				black = { prepend_args = { "--line-length", "100" } },
 				tombi = {
 					command = "tombi",
@@ -137,7 +148,7 @@ return {
 				cpp = { "clang_format" },
 				elixir = { "mix" },
 				lua = { "stylua" },
-				json = { "fixjson" },
+				json = { "prettier_json" },
 				jsonc = {
 					"deno_fmt",
 					"prettierd",

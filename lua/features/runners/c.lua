@@ -8,7 +8,7 @@ vim.api.nvim_create_autocmd("FileType", {
 			local makefile_path = file_dir == "" and "Makefile"
 				or file_dir .. "/Makefile"
 			if vim.fn.filereadable(makefile_path) == 1 then
-				local _result = vim.fn.system(
+				local _result = vim.fn.system( -- bin: make
 					"cd " .. file_dir .. " && make -n run 2>/dev/null"
 				)
 				return vim.v.shell_error == 0

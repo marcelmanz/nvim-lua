@@ -117,3 +117,16 @@ Dependencies:
 - [fd](https://github.com/sharkdp/fd)
 - [fzf](https://github.com/junegunn/fzf)
 - [bat](https://githubn.com/sharkdp/bat)
+
+## Tracking external binaries
+
+This repo uses Nix flakes as the source for every binary the config needs. 
+
+To make sure nothing drifts out of sync, call sites are tagged with
+`-- bin:` comments, so running `:checkhealth tools` warns you if any of them
+aren't on `$PATH`. 
+
+- for LSP's: each `lsp/<name>.lua` has a `cmd` set
+- if guarded with `vim.fn.executable "x"` / `vim.fn.exepath "x"`
+- if passed as the first arg to `vim.fn.jobstart{"x", ...}` / `vim.fn.system{"x", ...}`
+- anything else should be tagged in the line with a trailing `-- bin: x` comment

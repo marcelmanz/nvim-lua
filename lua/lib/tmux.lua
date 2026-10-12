@@ -32,7 +32,7 @@ function M.create_tmux_command(command)
 		return false
 	end
 
-	local tmux_command = string.format("tmux new-window '%s'", command)
+	local tmux_command = string.format("tmux new-window '%s'", command) -- bin: tmux
 
 	vim.cmd("silent !" .. tmux_command)
 	return true
