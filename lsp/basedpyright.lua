@@ -11,12 +11,10 @@ local function set_python_path(command)
 		name = "basedpyright",
 	}
 	for _, client in ipairs(clients) do
+		local python = client.settings.python --[[@as table?]]
 		---@diagnostic disable-next-line: assign-type-mismatch
-		client.settings.python = vim.tbl_deep_extend(
-			"force",
-			client.settings.python --[[@as table?]] or {},
-			{ pythonPath = path }
-		)
+		client.settings.python =
+			vim.tbl_deep_extend("force", python or {}, { pythonPath = path })
 		client:notify("workspace/didChangeConfiguration", { settings = nil })
 	end
 end
