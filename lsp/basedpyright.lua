@@ -14,8 +14,7 @@ local function set_python_path(command)
 		---@diagnostic disable-next-line: assign-type-mismatch
 		client.settings.python = vim.tbl_deep_extend(
 			"force",
-			client.settings.python --[[@as table?]]
-				or {},
+			client.settings.python --[[@as table?]] or {},
 			{ pythonPath = path }
 		)
 		client:notify("workspace/didChangeConfiguration", { settings = nil })
