@@ -120,11 +120,11 @@ Dependencies:
 
 ## Tracking external binaries
 
-This repo uses Nix flakes as the source for every binary the config needs. 
+This repo uses Nix flakes as the source for every binary the config needs.
 
 To make sure nothing drifts out of sync, call sites are tagged with
 `-- bin:` comments, so running `:checkhealth tools` warns you if any of them
-aren't on `$PATH`. 
+aren't on `$PATH`.
 
 - for LSP's: each `lsp/<name>.lua` has a `cmd` set
 - if guarded with `vim.fn.executable "x"` / `vim.fn.exepath "x"`

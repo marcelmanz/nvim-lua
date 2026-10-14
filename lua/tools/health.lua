@@ -52,16 +52,33 @@ function M.check()
 			vim.health.ok(entry.label .. " -> " .. entry.bin)
 		else
 			vim.health.warn(
-				entry.label .. ": " .. entry.bin .. " not on PATH, add it to flake.nix"
+				entry.label
+					.. ": "
+					.. entry.bin
+					.. " not on PATH, add it to flake.nix"
 			)
 		end
 	end
 
 	local found = {}
-	for _, bin in ipairs(rg_capture(root, [[vim\.fn\.(?:exepath|executable)\s*"([a-zA-Z0-9_.+-]+)"]])) do
+	for _, bin in
+		ipairs(
+			rg_capture(
+				root,
+				[[vim\.fn\.(?:exepath|executable)\s*"([a-zA-Z0-9_.+-]+)"]]
+			)
+		)
+	do
 		found[bin] = true
 	end
-	for _, bin in ipairs(rg_capture(root, [[vim\.fn\.(?:jobstart|system)\(\s*\{\s*"([a-zA-Z0-9_.+-]+)"]])) do
+	for _, bin in
+		ipairs(
+			rg_capture(
+				root,
+				[[vim\.fn\.(?:jobstart|system)\(\s*\{\s*"([a-zA-Z0-9_.+-]+)"]]
+			)
+		)
+	do
 		found[bin] = true
 	end
 	for _, bin in ipairs(rg_capture(root, [[--\s*bin:\s*([a-zA-Z0-9_.+-]+)]])) do
