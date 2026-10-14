@@ -25,7 +25,7 @@ return {
 				virt_text_priority = 100,
 			},
 			on_attach = function(bufnr)
-				local gs = package.loaded.gitsigns
+				local gs = package.loaded.gitsigns --[[@as gitsigns.actions]]
 
 				local function map(mode, l, r, opts)
 					opts = opts or {}
@@ -37,7 +37,10 @@ return {
 					if vim.wo.diff then
 						vim.cmd.normal { "]c", bang = true }
 					else
-						gs.nav_hunk("next", { target = "all" })
+						gs.nav_hunk(
+							"next",
+							{ target = "all" } --[[@as Gitsigns.NavOpts]]
+						)
 					end
 				end, { desc = "Jump to next hunk" })
 
@@ -45,7 +48,10 @@ return {
 					if vim.wo.diff then
 						vim.cmd.normal { "[c", bang = true }
 					else
-						gs.nav_hunk("prev", { target = "all" })
+						gs.nav_hunk(
+							"prev",
+							{ target = "all" } --[[@as Gitsigns.NavOpts]]
+						)
 					end
 				end, { desc = "Jump to previous hunk" })
 
@@ -79,7 +85,7 @@ return {
 				map(
 					"n",
 					"<leader>hu",
-					gs.undo_stage_hunk,
+					gs.stage_hunk,
 					{ desc = "undo stage hunk" }
 				)
 				map(
@@ -123,7 +129,7 @@ return {
 				map(
 					"n",
 					"<leader>td",
-					gs.toggle_deleted,
+					gs.preview_hunk_inline,
 					{ desc = "toggle git show deleted" }
 				)
 

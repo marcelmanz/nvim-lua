@@ -111,15 +111,15 @@ local function will_exit_nvim()
 	return normal_windows <= 1 and #tabpages == 1
 end
 
-local function saveSession(opts)
-	opts = opts or {}
+local function saveSession(session_opts)
+	session_opts = session_opts or {}
 	local filetype = string.lower(vim.bo.filetype)
 
 	if string.match(filetype, "commit") then
 		return
 	end
 
-	if not opts.force and not will_exit_nvim() then
+	if not session_opts.force and not will_exit_nvim() then
 		return
 	end
 
@@ -135,7 +135,7 @@ local function saveSession(opts)
 		vim.cmd "AutoSession save"
 	end
 
-	if opts.immediate then
+	if session_opts.immediate then
 		do_save()
 	else
 		vim.schedule(do_save)
@@ -238,7 +238,8 @@ function Enable_lsp_virtual_text()
 end
 
 local function lsp_diagnostic_toggle()
-	local virtual_text_is_enabled = vim.diagnostic.config().virtual_text == true
+	local virtual_text_is_enabled = (vim.diagnostic.config() or {}).virtual_text
+		== true
 	if virtual_text_is_enabled then
 		return Disable_lsp_virtual_text()
 	else
@@ -343,8 +344,8 @@ vim.keymap.set("n", "<leader>rb", function()
 	run_shell("bash", cmd)
 end, { desc = "Run bash alias/function, insert output" })
 
-vim.api.nvim_create_user_command("RunShell", function(opts)
-	local shell, cmd = opts.args:match "^(%S+)%s+(.*)$"
+vim.api.nvim_create_user_command("RunShell", function(command)
+	local shell, cmd = command.args:match "^(%S+)%s+(.*)$"
 	if not shell or cmd == "" then
 		vim.notify("Usage: :RunShell <shell> <cmd>", vim.log.levels.ERROR)
 		return

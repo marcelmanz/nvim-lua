@@ -22,7 +22,7 @@ end
 -- 2 add all missing imports in file
 local function add_missing_imports()
 	local before_lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
-	local before_tick = vim.b.changedtick
+	local _before_tick = vim.b.changedtick
 
 	vim.lsp.buf.code_action {
 		apply = true,
@@ -30,7 +30,7 @@ local function add_missing_imports()
 	}
 
 	vim.defer_fn(function()
-		-- if vim.b.changedtick == before_tick then
+		-- if vim.b.changedtick == _before_tick then
 		-- 	return
 		-- end
 		local after = vim.api.nvim_buf_get_lines(0, 0, -1, false)

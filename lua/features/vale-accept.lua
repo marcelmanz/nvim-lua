@@ -42,8 +42,8 @@ function M.add_word_to_accept()
 	end
 
 	local accept_path, err = get_vale_accept_path()
-	if err then
-		vim.notify(err, vim.log.levels.ERROR)
+	if not accept_path then
+		vim.notify(err or "Vale accept path not found", vim.log.levels.ERROR)
 		return
 	end
 

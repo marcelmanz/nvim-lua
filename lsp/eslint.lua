@@ -99,9 +99,7 @@ return {
 			"deno.lock",
 		}
 		-- Give the root markers equal priority by wrapping them in a table
-		root_markers = vim.fn.has "nvim-0.11.3" == 1 and { root_markers }
-			or root_markers
-		local project_root = vim.fs.root(bufnr, root_markers)
+		local project_root = vim.fs.root(bufnr, { root_markers })
 		if not project_root then
 			return
 		end
@@ -182,7 +180,7 @@ return {
 			-- Support flat config files
 			-- They contain 'config' in the file name
 			local flat_config_files = vim.tbl_filter(function(file)
-				return file:match "config"
+				return file:match "config" ~= nil
 			end, eslint_config_files)
 
 			for _, file in ipairs(flat_config_files) do
@@ -209,8 +207,11 @@ return {
 			-- Support Yarn2 (PnP) projects
 			local pnp_cjs = root_dir .. "/.pnp.cjs"
 			local pnp_js = root_dir .. "/.pnp.js"
-			if vim.uv.fs_stat(pnp_cjs) or vim.uv.fs_stat(pnp_js) then
-				local cmd = config.cmd
+			local cmd = config.cmd
+			if
+				type(cmd) == "table"
+				and (vim.uv.fs_stat(pnp_cjs) or vim.uv.fs_stat(pnp_js))
+			then
 				config.cmd = vim.list_extend({ "yarn", "exec" }, cmd)
 			end
 		end

@@ -34,6 +34,7 @@ local function lsp_bins()
 	for _, file in ipairs(vim.api.nvim_get_runtime_file("lsp/*.lua", true)) do
 		local name = vim.fn.fnamemodify(file, ":t:r")
 		local ok, cfg = pcall(function()
+			---@diagnostic disable-next-line: undefined-field
 			return vim.lsp.config[name]
 		end)
 		if ok and type(cfg) == "table" and cfg.cmd and cfg.cmd[1] then

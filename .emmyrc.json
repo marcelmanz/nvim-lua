@@ -9,7 +9,8 @@
     ]
   },
   "diagnostics": {
-    "globals": ["vim"]
+    "globals": ["vim", "MiniNotify", "MiniPick", "MiniSnippets"],
+    "disable": ["missing-fields", "preferred-local-alias"]
   },
   "workspace": {
     "checkThirdParty": false,

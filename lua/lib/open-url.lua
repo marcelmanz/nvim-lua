@@ -5,6 +5,7 @@ local open_cmd = vim.ui and vim.ui.open
 		vim.fn["netrw#BrowseX"](uri, 0)
 	end
 
+---@param s string
 local function is_url(s)
 	return s:match "^https?://" or s:match "^mailto:"
 end
@@ -43,9 +44,9 @@ function M.open()
 	end
 
 	-- 2. inline (https://…) link
-	for s, e in line:gmatch "()(%b())()" do
-		if col >= s and col <= e then
-			local inside = line:sub(s + 1, e - 1)
+	for s, parens, e in line:gmatch "()(%b())()" do
+		if col >= s and col < e then
+			local inside = parens:sub(2, -2)
 			if is_url(inside) then
 				return open_cmd(inside)
 			end
@@ -57,7 +58,7 @@ function M.open()
 	local ref = ref_from_pair(line, col) or ref_from_single(line, col)
 	if ref and goto_definition(ref) then
 		local url = vim.api.nvim_get_current_line():match "%]:%s*(%S+)"
-		if is_url(url) then
+		if url and is_url(url) then
 			open_cmd(url)
 			vim.fn.setpos(".", save) -- ②
 			return

@@ -1,6 +1,6 @@
 local runner = require "lib.runner"
 
-local function get_vitest_command(args)
+local function get_vitest_command()
 	return "npm run test %"
 end
 

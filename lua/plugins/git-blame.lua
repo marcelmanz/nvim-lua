@@ -31,7 +31,7 @@ return {
 
 				local git_root =
 					vim.fn.systemlist("git rev-parse --show-toplevel")[1]
-				if vim.v.shell_error ~= 0 then
+				if vim.v.shell_error ~= 0 or not git_root then
 					vim.cmd("cd " .. vim.fn.fnameescape(original_cwd))
 					vim.notify(
 						"File is not in a git repository",
@@ -54,24 +54,10 @@ return {
 
 				vim.cmd("cd " .. vim.fn.fnameescape(original_cwd))
 
-				if vim.v.shell_error ~= 0 then
+				local commit_hash = blame[1] and blame[1]:match "^(%w+)"
+				if vim.v.shell_error ~= 0 or not commit_hash then
 					vim.notify("Failed to get git blame", vim.log.levels.WARN)
 					return
-				end
-
-				local commit_hash = blame[1]:match "^(%w+)"
-				local author, date, summary
-
-				for _, line in ipairs(blame) do
-					if line:match "^author " then
-						author = line:match "^author (.+)"
-					elseif line:match "^author%-time " then
-						local timestamp =
-							tonumber(line:match "^author%-time (%d+)")
-						date = os.date("%Y-%m-%d", timestamp)
-					elseif line:match "^summary " then
-						summary = line:match "^summary (.+)"
-					end
 				end
 
 				local result = string.format(
@@ -102,7 +88,7 @@ return {
 
 				local git_root =
 					vim.fn.systemlist("git rev-parse --show-toplevel")[1]
-				if vim.v.shell_error ~= 0 then
+				if vim.v.shell_error ~= 0 or not git_root then
 					vim.cmd("cd " .. vim.fn.fnameescape(original_cwd))
 					vim.notify(
 						"File is not in a git repository",
@@ -123,13 +109,12 @@ return {
 					)
 				)
 
-				if vim.v.shell_error ~= 0 then
+				local commit_hash = blame[1] and blame[1]:match "^(%w+)"
+				if vim.v.shell_error ~= 0 or not commit_hash then
 					vim.cmd("cd " .. vim.fn.fnameescape(original_cwd))
 					vim.notify("Failed to get git blame", vim.log.levels.WARN)
 					return
 				end
-
-				local commit_hash = blame[1]:match "^(%w+)"
 
 				vim.cmd "vsplit"
 				vim.cmd "enew"
@@ -160,7 +145,7 @@ return {
 
 				local git_root =
 					vim.fn.systemlist("git rev-parse --show-toplevel")[1]
-				if vim.v.shell_error ~= 0 then
+				if vim.v.shell_error ~= 0 or not git_root then
 					vim.cmd("cd " .. vim.fn.fnameescape(original_cwd))
 					vim.notify(
 						"File is not in a git repository",

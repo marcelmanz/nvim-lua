@@ -27,8 +27,7 @@ return {
 	dependencies = { "echasnovski/mini.nvim" },
 	enabled = true,
 	config = function()
-		---@type FzfLua
-		local fzf = require "fzf-lua"
+		local fzf = require "fzf-lua" --[[@as FzfLua]]
 
 		local actions = fzf.actions
 		local config = fzf.config
@@ -68,8 +67,7 @@ return {
 		{
 			"<Leader>f",
 			function()
-				---@type FzfLua
-				local fzf = require "fzf-lua"
+				local fzf = require "fzf-lua" --[[@as FzfLua]]
 				fzf.files()
 			end,
 			desc = "Find Files",
@@ -77,8 +75,7 @@ return {
 		{
 			"<leader>rw",
 			function()
-				---@type FzfLua
-				local fzf = require "fzf-lua"
+				local fzf = require "fzf-lua" --[[@as FzfLua]]
 				fzf.grep_cword()
 			end,
 			desc = "Fzf Grep Current Word",
@@ -86,8 +83,7 @@ return {
 		{
 			"<Leader>rg",
 			function()
-				---@type FzfLua
-				local fzf = require "fzf-lua"
+				local fzf = require "fzf-lua" --[[@as FzfLua]]
 				fzf.grep()
 			end,
 			desc = "Find Files via grep",
@@ -95,8 +91,7 @@ return {
 		{
 			"<Leader>rq",
 			function()
-				---@type FzfLua
-				local fzf = require "fzf-lua"
+				local fzf = require "fzf-lua" --[[@as FzfLua]]
 				fzf.quickfix()
 			end,
 			desc = "Find Quickfix",
@@ -104,8 +99,7 @@ return {
 		{
 			"<Leader>rf",
 			function()
-				---@type FzfLua
-				local fzf = require "fzf-lua"
+				local fzf = require "fzf-lua" --[[@as FzfLua]]
 				fzf.resume()
 			end,
 			desc = "Resume an Fzf action",
@@ -113,8 +107,7 @@ return {
 		{
 			"<leader>gr",
 			function()
-				---@type FzfLua
-				local fzf = require "fzf-lua"
+				local fzf = require "fzf-lua" --[[@as FzfLua]]
 				fzf.lsp_references()
 			end,
 			desc = "LSP References",
@@ -122,8 +115,7 @@ return {
 		{
 			"<leader>gi",
 			function()
-				---@type FzfLua
-				local fzf = require "fzf-lua"
+				local fzf = require "fzf-lua" --[[@as FzfLua]]
 				fzf.git_status()
 			end,
 			desc = "Git Status",

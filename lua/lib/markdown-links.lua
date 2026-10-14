@@ -129,7 +129,7 @@ local function state_from_refs(refs)
 	for _, l in ipairs(refs) do
 		local n, url = l:match(REF_DEF)
 		if n then
-			n = tonumber(n)
+			n = tonumber(n) --[[@as integer]]
 			state.url_to_n[url] = n
 			if n > maxn then
 				maxn = n
@@ -144,7 +144,7 @@ local function max_ref_in_body(body)
 	local max = -1
 	for _, l in ipairs(body) do
 		for n in l:gmatch "%[(%d+)%]" do
-			n = tonumber(n)
+			n = tonumber(n) --[[@as integer]]
 			if n > max then
 				max = n
 			end

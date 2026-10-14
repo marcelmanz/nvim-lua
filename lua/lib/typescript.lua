@@ -16,7 +16,7 @@ function M.typescript_server_import_all()
 			},
 		}
 	else
-		vim.api.nvim_err_writeln "Not a typescript file"
+		vim.notify("Not a typescript file", vim.log.levels.ERROR)
 		return
 	end
 end

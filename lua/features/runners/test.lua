@@ -37,7 +37,6 @@ end
 local function RunFileTests()
 	local fname = vim.fn.expand "%:t"
 	local filepath = vim.fn.expand "%:p"
-	local filestem = vim.fn.expand "%:p:r"
 	local ext = vim.fn.expand "%:e"
 
 	if ext == "rs" then

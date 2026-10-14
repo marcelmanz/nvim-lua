@@ -8,8 +8,10 @@ local M = {}
 
 local state = {
 	index = 1,
+	---@type IncDecMatch[]
 	matches = {},
 	ns = vim.api.nvim_create_namespace "incdec_highlight",
+	---@type integer?
 	hl_id = nil,
 }
 
@@ -21,9 +23,12 @@ local function adjust_date(date_str, part, delta)
 		return date_str
 	end
 	y, m, d = tonumber(y), tonumber(m), tonumber(d)
-	if not (y and m and d) then
+	if not y or not m or not d then
 		return date_str
 	end
+	---@cast y integer
+	---@cast m integer
+	---@cast d integer
 
 	local new_time
 	if part == "year" then
@@ -45,6 +50,9 @@ local function adjust_semver(ver, part, delta)
 		return ver
 	end
 	major, minor, patch = tonumber(major), tonumber(minor), tonumber(patch)
+	if not major or not minor or not patch then
+		return ver
+	end
 
 	if part == "year" or part == "major" then
 		major = math.max(0, major + delta)
@@ -58,6 +66,7 @@ end
 
 -- Collect and sort matches ----------------------------------------------
 
+---@return IncDecMatch[]
 local function collect_matches()
 	local matches = {}
 	local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
@@ -132,7 +141,7 @@ function M.jump(next)
 	end
 
 	state.index = nearest
-	local match = state.matches[state.index]
+	local match = state.matches[state.index] --[[@as IncDecMatch]]
 	vim.api.nvim_win_set_cursor(0, { match.line, match.col - 1 })
 
 	-- highlight current match
@@ -152,8 +161,7 @@ end
 -- Detect type ------------------------------------------------------------
 
 function M.detect_type()
-	local cursor = vim.api.nvim_win_get_cursor(0)
-	local lnum, col = cursor[1], cursor[2]
+	local col = vim.api.nvim_win_get_cursor(0)[2]
 	local line = vim.api.nvim_get_current_line()
 	for dstart, date in line:gmatch "()(%d%d%d%d%-%d%d%-%d%d)" do
 		if col >= dstart - 1 and col < dstart - 1 + #date then

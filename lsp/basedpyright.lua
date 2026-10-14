@@ -11,20 +11,13 @@ local function set_python_path(command)
 		name = "basedpyright",
 	}
 	for _, client in ipairs(clients) do
-		if client.settings then
-			---@diagnostic disable-next-line: param-type-mismatch
-			client.settings.python = vim.tbl_deep_extend(
-				"force",
-				client.settings.python or {},
-				{ pythonPath = path }
-			)
-		else
-			client.config.settings = vim.tbl_deep_extend(
-				"force",
-				client.config.settings,
-				{ python = { pythonPath = path } }
-			)
-		end
+		---@diagnostic disable-next-line: assign-type-mismatch
+		client.settings.python = vim.tbl_deep_extend(
+			"force",
+			client.settings.python --[[@as table?]]
+				or {},
+			{ pythonPath = path }
+		)
 		client:notify("workspace/didChangeConfiguration", { settings = nil })
 	end
 end
@@ -42,7 +35,6 @@ return {
 		"Pipfile",
 		".git",
 	},
-	---@type lspconfig.settings.basedpyright
 	settings = {
 		basedpyright = {
 			analysis = {

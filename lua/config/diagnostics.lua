@@ -8,7 +8,6 @@ vim.diagnostic.config {
 		},
 	},
 	underline = false,
-	undercurl = false,
 	update_in_insert = false,
 	severity_sort = false,
 	virtual_lines = false,
@@ -16,7 +15,7 @@ vim.diagnostic.config {
 		prefix = "●",
 	},
 	float = {
-		source = "always",
+		source = true,
 	},
 }
 

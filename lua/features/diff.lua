@@ -2,10 +2,12 @@ local M = {}
 
 local state = {
 	marked_lines = nil,
+	---@type integer?
 	marked_bufnr = nil,
 	marked_start = nil,
 	marked_end = nil,
 	mark_ns = vim.api.nvim_create_namespace "diff_mark",
+	---@type integer?
 	mark_id = nil,
 	last_left_lines = nil,
 	last_right_lines = nil,
@@ -24,10 +26,10 @@ local function get_visual_lines()
 	local lines = vim.api.nvim_buf_get_lines(0, start_lnum - 1, end_lnum, false)
 
 	if #lines > 1 then
-		lines[1] = lines[1]:sub(start_col)
-		lines[#lines] = lines[#lines]:sub(1, end_col)
+		lines[1] = (lines[1] or ""):sub(start_col)
+		lines[#lines] = (lines[#lines] or ""):sub(1, end_col)
 	else
-		lines[1] = lines[1]:sub(start_col, end_col)
+		lines[1] = (lines[1] or ""):sub(start_col, end_col)
 	end
 
 	return bufnr, lines, start_lnum - 1, end_lnum - 1
@@ -52,7 +54,7 @@ function M.operator_mark()
 		false
 	)
 
-	if state.mark_id then
+	if state.mark_id and state.marked_bufnr then
 		pcall(
 			vim.api.nvim_buf_del_extmark,
 			state.marked_bufnr,
@@ -126,7 +128,7 @@ function M.operator_compare()
 end
 
 function M.clear_mark()
-	if state.mark_id then
+	if state.mark_id and state.marked_bufnr then
 		pcall(
 			vim.api.nvim_buf_del_extmark,
 			state.marked_bufnr,

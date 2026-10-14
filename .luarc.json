@@ -12,7 +12,7 @@
   "diagnostics": {
     "globals": ["vim"],
     "severity": {
-      "assign-type-mismatch": "Error"
+      "assign-type-mismatch": "error"
     },
     "libraryFiles": "Disable",
     "groupFileStatus": {

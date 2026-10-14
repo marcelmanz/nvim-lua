@@ -15,7 +15,7 @@ local function make_format()
 	vim.cmd "silent update"
 	local result = vim.system({ "make", "format" }, { cwd = cwd }):wait()
 	if result.code ~= 0 then
-		vim.notify(result.stderr, vim.log.levels.ERROR)
+		vim.notify(result.stderr or "", vim.log.levels.ERROR)
 	else
 		vim.cmd "edit"
 	end
@@ -131,7 +131,6 @@ return {
 						vim.env.HOME .. "/.config/cbfmt/cbfmt.toml",
 					},
 				},
-				clang_format = { timeout_ms = 1000 },
 				dprint = {
 					timeout_ms = 500,
 					lsp_format = "prefer",

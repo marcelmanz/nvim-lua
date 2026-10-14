@@ -10,7 +10,7 @@ return {
 	filetypes = { "asciidoc", "markdown", "text", "tex", "rst", "html", "xml" },
 	root_markers = { ".vale.ini" },
 
-	on_init = function(client, _)
+	on_init = function()
 		local styles_path = vim.fn.expand "~/.vale/styles"
 		local config_dir = styles_path .. "/config"
 		local vocab_dir = config_dir .. "/vocabularies"

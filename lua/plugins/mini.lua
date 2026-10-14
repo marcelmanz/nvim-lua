@@ -85,9 +85,8 @@ local function setup_mini_snippets(setup_snippets)
 
 	vim.api.nvim_create_autocmd("InsertLeave", {
 		callback = function()
-			local ok, ms = pcall(require, "mini.snippets")
-			if ok and ms.session.get() then
-				ms.session.stop()
+			if mini_snippets.session.get() then
+				mini_snippets.session.stop()
 			end
 			if vim.snippet and vim.snippet.active and vim.snippet.active() then
 				vim.snippet.stop()

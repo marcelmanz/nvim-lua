@@ -6,7 +6,7 @@ end, { desc = "Run just run in tmux window" })
 
 -- create just command that accept arguments
 vim.api.nvim_create_user_command("Just", function(opts)
-	if opts.args then
+	if opts.args ~= "" then
 		tmux.create_tmux_persistent_command("just " .. opts.args)
 		return
 	end
@@ -14,7 +14,7 @@ vim.api.nvim_create_user_command("Just", function(opts)
 end, { desc = "Run just in tmux window", nargs = "?" })
 
 vim.api.nvim_create_user_command("Rgr", function(opts)
-	if opts.args then
+	if opts.args ~= "" then
 		tmux.create_tmux_persistent_command("rgr " .. opts.args)
 		return
 	end

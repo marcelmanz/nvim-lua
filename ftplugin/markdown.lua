@@ -123,9 +123,9 @@ local function hover_table_row()
 		return
 	end
 
-	for i, line in ipairs(display_text) do
-		if line ~= "---" and not line:match "^%*%*" then
-			display_text[i] = " " .. line
+	for i, display_line in ipairs(display_text) do
+		if display_line ~= "---" and not display_line:match "^%*%*" then
+			display_text[i] = " " .. display_line
 		end
 	end
 	table.insert(display_text, 1, "")
@@ -153,14 +153,13 @@ local function hover_table_row()
 					or buf_line:match "^([^*:][^:]*): "
 				if header then
 					local s, e = buf_line:find(header, 1, true)
-					if s then
-						vim.api.nvim_buf_add_highlight(
+					if s and e then
+						vim.hl.range(
 							bufnr,
 							ns,
 							"@markup.heading.markdown",
-							i - 1,
-							s - 1,
-							e
+							{ i - 1, s - 1 },
+							{ i - 1, e }
 						)
 					end
 				end

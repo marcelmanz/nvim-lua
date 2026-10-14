@@ -42,7 +42,7 @@ function M.QfLoad(opts)
 		return
 	end
 
-	local content = table.concat(lines, "\n")
+	local content = table.concat(lines --[[@as string[] ]], "\n")
 	local ok2, decoded = pcall(vim.fn.json_decode, content)
 	if not ok2 or type(decoded) ~= "table" or #decoded == 0 then
 		return
@@ -65,15 +65,15 @@ function M.QfLoad(opts)
 	end
 
 	local curwin = vim.api.nvim_get_current_win()
-	local qf_open = false
+	local _qf_open = false
 	for _, win in ipairs(vim.fn.getwininfo()) do
 		if win.quickfix == 1 then
-			qf_open = true
+			_qf_open = true
 			break
 		end
 	end
 	-- disabled for now
-	-- if not qf_open then
+	-- if not _qf_open then
 	-- 	pcall(vim.cmd, "botright copen")
 	-- end
 	pcall(vim.api.nvim_set_current_win, curwin)
@@ -142,7 +142,7 @@ vim.api.nvim_create_autocmd("VimLeavePre", {
 	end,
 })
 
-vim.api.nvim_create_user_command("QfDeletePersistentFile", function(opts)
+vim.api.nvim_create_user_command("QfDeletePersistentFile", function()
 	M.QfDeletePersistentFile()
 end, { nargs = "?" })
 

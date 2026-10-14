@@ -3,6 +3,7 @@ local M = {}
 -- Per-path runner overrides. First entry whose `path` is a prefix of the
 -- current directory wins. Define either `prefix` (string prepended to the
 -- command) or `wrap` (function receiving the command, returning a new one).
+---@type { path: string, prefix?: string, wrap?: fun(cmd: string): string }[]
 M.configs = {
 	{
 		path = vim.fn.expand "~/clones/work/network-manager",

@@ -28,7 +28,7 @@ return {
 			border = "single",
 		},
 		persist = {
-			path = vim.fs.joinpath(vim.fn.stdpath "data", "dart"),
+			path = vim.fn.stdpath "data" .. "/dart",
 		},
 		mappings = {
 			mark = ";;", -- Mark current buffer

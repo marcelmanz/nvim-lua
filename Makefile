@@ -1,6 +1,8 @@
 LUA_FILES := $(shell find . -name "*.lua" -not -path "*/data/*" -not -path "*/.git/*" -not -name "nil.lua")
 MD_FILES  := $(shell find . -name "*.md" -not -path "*/data/*" -not -path "*/.git/*")
 
+export VIMRUNTIME ?= $(shell nvim --clean --headless -c 'echo $$VIMRUNTIME' -c q 2>&1)
+
 .PHONY: format format-lua format-md lint lint-lua check
 
 format: format-lua format-md

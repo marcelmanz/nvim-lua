@@ -29,8 +29,12 @@ return {
 					and "Deno project detected. Install TypeScript: npm install -D typescript"
 				or "TypeScript not found. LSP requires: npm install -D typescript"
 			vim.notify("MDX LSP: " .. hint, vim.log.levels.WARN)
-			return false
+			return
 		end
-		config.init_options.typescript.tsdk = tsdk
+		config.init_options = vim.tbl_deep_extend(
+			"force",
+			config.init_options or {},
+			{ typescript = { tsdk = tsdk } }
+		)
 	end,
 }
