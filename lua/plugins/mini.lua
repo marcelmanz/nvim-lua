@@ -132,7 +132,7 @@ local function setup_mini_starter(setup_starter)
 			local items = {}
 			local count = 0
 
-			local sep = vim.loop.os_uname().sysname == "Windows_NT" and "\\"
+			local sep = vim.uv.os_uname().sysname == "Windows_NT" and "\\"
 				or "/"
 			local cwd = vim.fn.getcwd()
 			if cwd:sub(-#sep) ~= sep then
@@ -392,12 +392,6 @@ return {
 	-- dir = vim.fn.expand "$HOME/clones/forks/mini.nvim",
 	version = false,
 	event = "VimEnter",
-	dependencies = {
-		{ "nvim-mini/mini.snippets", version = false },
-		{ "nvim-mini/mini.clue", version = false },
-		{ "nvim-mini/mini.pick", version = false },
-		"https://github.com/nvim-mini/mini.base16",
-	},
 	config = function()
 		setup_mini_notify(require("mini.notify").setup)
 		setup_mini_snippets(require("mini.snippets").setup)

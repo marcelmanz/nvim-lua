@@ -1,26 +1,15 @@
 return {
-	"f-person/git-blame.nvim",
-	dependencies = {
-		{
-			"linrongbin16/gitlinker.nvim",
-			config = function()
-				require("gitlinker").setup()
-			end,
-		},
-	},
-	cmd = {
-		"GitBlameToggle",
-		"GitBlameEnable",
-		"GitBlameOpenCommitURL",
-		"GitBlameOpenFileURL",
-		"GitBlameCopySHA",
-		"GitBlameCopyFileURL",
-	},
+	"linrongbin16/gitlinker.nvim",
+	cmd = "GitLink",
 	keys = {
 		{
 			"<Leader>go",
-			"<cmd>GitBlameOpenFileURL<cr>",
-			desc = "Open file URL in git blame",
+			function()
+				require("gitlinker").link {
+					action = require("gitlinker.actions").system,
+				}
+			end,
+			desc = "Open file URL in browser",
 		},
 		{
 			"<Leader>yl",
@@ -145,7 +134,7 @@ return {
 				vim.cmd "vsplit"
 				vim.cmd "enew"
 				local buf = vim.api.nvim_get_current_buf()
-				vim.fn.termopen("git show " .. commit_hash)
+				vim.fn.jobstart("git show " .. commit_hash, { term = true })
 
 				vim.api.nvim_create_autocmd("BufWinLeave", {
 					buffer = buf,
@@ -186,13 +175,14 @@ return {
 				vim.cmd "vsplit"
 				vim.cmd "enew"
 				local buf = vim.api.nvim_get_current_buf()
-				vim.fn.termopen(
+				vim.fn.jobstart(
 					string.format(
 						"git log -L %d,%d:%s",
 						line_num,
 						line_num,
 						relative_file
-					)
+					),
+					{ term = true }
 				)
 
 				vim.api.nvim_create_autocmd("BufWinLeave", {
@@ -208,13 +198,7 @@ return {
 			desc = "Show git log for current line",
 		},
 	},
-	event = "VeryLazy",
 	config = function()
-		require("gitblame").setup {
-			enabled = false,
-			date_format = "%x",
-			message_when_not_committed = "",
-			highlight_group = "GitSignsCurrentLineBlame",
-		}
+		require("gitlinker").setup()
 	end,
 }

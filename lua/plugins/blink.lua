@@ -4,11 +4,10 @@ return {
 	event = { "InsertEnter", "CmdlineEnter" },
 	-- optional: provides snippets for the snippet source
 	dependencies = {
-		"echasnovski/mini.snippets",
+		"echasnovski/mini.nvim",
 		-- { "rafamadriz/friendly-snippets", lazy = true },
 		-- LuaSnip moved to optional - only load if using full profile
 		"mgalliou/blink-cmp-tmux",
-		"mikavilpas/blink-ripgrep.nvim",
 	},
 
 	-- use a release tag to download pre-built binaries

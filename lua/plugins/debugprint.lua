@@ -31,9 +31,9 @@ return {
 	},
 
 	dependencies = {
-		"nvim-mini/mini.hipatterns", -- Optional: Needed for line highlighting ('fine-grained' hipatterns plugin)
-		"ibhagwan/fzf-lua", -- Optional: If you want to use the `:Debugprint search` command with fzf-lua
+		"echasnovski/mini.nvim", -- Optional: Needed for line highlighting ('fine-grained' hipatterns plugin)
 	},
-	lazy = false, -- Required to make line highlighting work before debugprint is first used
+	keys = { { "g?", mode = { "n", "x" } } },
+	cmd = "Debugprint",
 	version = "*", -- Remove if you DON'T want to use the stable version
 }

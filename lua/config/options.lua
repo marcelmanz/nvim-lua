@@ -22,7 +22,6 @@ vim.g.loaded_netrwSettings = 1
 vim.g.loaded_tutor = 1
 vim.g.loaded_rplugin = 1
 vim.g.loaded_shada_plugin = 1
-vim.g.loaded_spellfile_plugin = 1
 
 vim.o.winborder = "single"
 vim.o.winbar = "%f" -- replaces dropbar.nvim
@@ -83,9 +82,5 @@ vim.o.background = _f and (_f:read "*l" or "light") or "light"
 if _f then
 	_f:close()
 end
-pcall(
-	vim.cmd.colorscheme,
-	vim.o.background == "light" and "lunaperche" or "habamax"
-)
 
 -- vim: ts=2 sts=2 sw=2 et

@@ -24,7 +24,7 @@
 
 return {
 	"ibhagwan/fzf-lua",
-	dependencies = { "echasnovski/mini.icons" },
+	dependencies = { "echasnovski/mini.nvim" },
 	enabled = true,
 	config = function()
 		---@type FzfLua

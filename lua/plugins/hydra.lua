@@ -12,7 +12,7 @@ return {
  _J_: next hunk   _s_: stage hunk        _d_: deleted      _b_: blame line
  _K_: prev hunk   _u_: undo stage        _p_: preview      _B_: blame full
  ^ ^              _S_: stage buffer      ^ ^               _/_: base file
- ^ ^              _<Enter>_: Neogit      _q_: exit
+ ^ ^              ^ ^                    _q_: exit
 ]]
 
 		Hydra {
@@ -50,7 +50,6 @@ return {
 					end,
 				},
 				{ "/", gitsigns.show, { exit = true } },
-				{ "<Enter>", "<Cmd>Neogit<CR>", { exit = true } },
 				{ "q", nil, { exit = true } },
 			},
 		}
