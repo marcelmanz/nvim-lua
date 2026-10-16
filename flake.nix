@@ -116,7 +116,7 @@
         config = {
           programs.neovim = {
             enable = true;
-            extraPackages = neovimTools pkgs (import nixpkgs-unstable {system = pkgs.stdenv.hostPlatform.system;});
+            extraPackages = neovimTools (import nixpkgs {system = pkgs.stdenv.hostPlatform.system;}) (import nixpkgs-unstable {system = pkgs.stdenv.hostPlatform.system;});
             plugins = [
               pkgs.vimPlugins.nvim-treesitter.withAllGrammars
             ];
