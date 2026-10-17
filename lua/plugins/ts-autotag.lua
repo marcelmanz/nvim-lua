@@ -2,6 +2,7 @@ return {
 	"windwp/nvim-ts-autotag",
 	ft = { "html", "tsx", "jsx", "xml", "vue", "svelte", "astro", "php" },
 	config = function()
+		---@diagnostic disable-next-line: undefined-field
 		require("nvim-ts-autotag").setup {
 			opts = {
 				-- Defaults
