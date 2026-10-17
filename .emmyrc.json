@@ -17,7 +17,8 @@
     "library": [
       "$VIMRUNTIME",
       "$LLS_Addons/luvit",
-      "$HOME/.local/share/nvim/lazy"
+      "$HOME/.local/share/nvim/lazy",
+      "$HOME/clones/own/highlighter.nvim"
     ],
     "ignoreGlobs": [
       "**/*_spec.lua"

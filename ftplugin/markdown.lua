@@ -174,3 +174,56 @@ vim.keymap.set(
 	hover_table_row,
 	{ buffer = true, desc = "Hover table row details" }
 )
+
+local function send_tasks_to_vikunja(first_line, last_line)
+	local lines =
+		vim.api.nvim_buf_get_lines(0, first_line - 1, last_line, false)
+	local sent = 0
+	for i, line in ipairs(lines) do
+		local indent, title = line:match "^(%s*)[-*] %[ %] (.+)$"
+		if title then
+			local result = vim.system({ "vja", "add", title }, { text = true })
+				:wait()
+			local task_id = result.stdout
+				and result.stdout:match "Created task (%d+)"
+			if not task_id then
+				vim.notify(
+					"vja: " .. (result.stderr or result.stdout),
+					vim.log.levels.ERROR
+				)
+				break
+			end
+			lines[i] = indent
+				.. "- "
+				.. title
+				.. " ([vikunja #"
+				.. task_id
+				.. "](https://todo.marcel.cool/tasks/"
+				.. task_id
+				.. "))"
+			sent = sent + 1
+		end
+	end
+	vim.api.nvim_buf_set_lines(0, first_line - 1, last_line, false, lines)
+	if sent == 0 then
+		vim.notify("No open checkboxes", vim.log.levels.WARN)
+	end
+end
+
+vim.api.nvim_buf_create_user_command(0, "VjaSend", function(opts)
+	send_tasks_to_vikunja(opts.line1, opts.line2)
+end, { range = true, desc = "Send todo items to Vikunja" })
+
+vim.keymap.set(
+	"n",
+	"<leader>vj",
+	"<cmd>VjaSend<cr>",
+	{ buffer = true, desc = "Send todo item to Vikunja" }
+)
+
+vim.keymap.set(
+	"x",
+	"<leader>vj",
+	":VjaSend<cr>",
+	{ buffer = true, desc = "Send todo items to Vikunja" }
+)

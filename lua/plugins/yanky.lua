@@ -3,9 +3,9 @@ return {
 	opts = {},
 	keys = {
 		{
-			"<leader>v",
+			"<leader>yh",
 			function()
-				require("yanky.picker").fzf_lua()
+				require("yanky.picker").select_in_history()
 			end,
 			mode = { "n", "x" },
 			desc = "Open Yank History",
