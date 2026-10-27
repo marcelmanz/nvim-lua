@@ -51,7 +51,6 @@ vim.wo.wrap = false
 vim.wo.nu = true
 vim.wo.foldnestmax = 1
 vim.wo.signcolumn = "yes"
-vim.wo.colorcolumn = "80"
 
 vim.opt.laststatus = 3
 vim.o.undolevels = 10000

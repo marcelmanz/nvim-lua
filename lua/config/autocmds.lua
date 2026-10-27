@@ -79,16 +79,13 @@ vim.filetype.add {
 }
 
 -- Use BufReadPost so editorconfig has already set textwidth (via max_line_length)
--- before we sync colorcolumn to it. Falls back to 80 if nothing sets textwidth.
+-- before the insert-mode colorcolumn reads it. Falls back to 80 if nothing sets textwidth.
 au({ "BufNewFile", "BufReadPost" }, {
 	pattern = { "*.md" },
 	callback = function()
-		local tw = vim.bo.textwidth
-		if tw == 0 then
-			tw = 80
-			vim.opt_local.textwidth = tw
+		if vim.bo.textwidth == 0 then
+			vim.opt_local.textwidth = 80
 		end
-		vim.opt_local.colorcolumn = tostring(tw)
 	end,
 	group = add_80_chars_on_markdown,
 })
@@ -97,7 +94,6 @@ au({ "BufNewFile", "BufRead" }, {
 	pattern = { "*.py" },
 	callback = function()
 		vim.opt_local.textwidth = 100
-		vim.opt_local.colorcolumn = "100"
 	end,
 	group = python_line_length,
 })
@@ -106,6 +102,14 @@ vim.api.nvim_create_autocmd("InsertEnter", {
 	pattern = "*",
 	callback = function()
 		vim.diagnostic.config { virtual_text = false }
+		vim.wo.colorcolumn = tostring(vim.bo.textwidth > 0 and vim.bo.textwidth or 80)
+	end,
+})
+
+vim.api.nvim_create_autocmd("InsertLeave", {
+	pattern = "*",
+	callback = function()
+		vim.wo.colorcolumn = ""
 	end,
 })
 vim.api.nvim_create_autocmd("InsertLeave", {
