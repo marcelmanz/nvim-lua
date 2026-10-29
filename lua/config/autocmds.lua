@@ -102,7 +102,8 @@ vim.api.nvim_create_autocmd("InsertEnter", {
 	pattern = "*",
 	callback = function()
 		vim.diagnostic.config { virtual_text = false }
-		vim.wo.colorcolumn = tostring(vim.bo.textwidth > 0 and vim.bo.textwidth or 80)
+		vim.wo.colorcolumn =
+			tostring(vim.bo.textwidth > 0 and vim.bo.textwidth or 80)
 	end,
 })
 

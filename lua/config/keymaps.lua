@@ -1,4 +1,3 @@
-local persistend_qfl = require "features.persistend-qfl"
 local toggle_quickfix = require "lib.toggle-qf"
 
 local opts = { noremap = true, silent = true }
@@ -82,71 +81,6 @@ vim.keymap.set(
 
 vim.keymap.set("n", "<Leader>nw", ":noautocmd w<cr>", opts)
 vim.keymap.set("c", "w!!", "SudaWrite<cr>", { noremap = false, silent = false })
-
-local function is_qf_open()
-	for _, win in ipairs(vim.fn.getwininfo()) do
-		if win.quickfix == 1 then
-			return true
-		end
-	end
-	return false
-end
-
-local function will_exit_nvim()
-	local normal_windows = 0
-	local current_tabpage = vim.api.nvim_get_current_tabpage()
-
-	for _, win in ipairs(vim.fn.getwininfo()) do
-		if win.tabnr == current_tabpage then
-			local buf = vim.api.nvim_win_get_buf(win.winid)
-			local buftype =
-				vim.api.nvim_get_option_value("buftype", { buf = buf })
-			if buftype == "" or buftype == "acwrite" then
-				normal_windows = normal_windows + 1
-			end
-		end
-	end
-
-	local tabpages = vim.api.nvim_list_tabpages()
-	return normal_windows <= 1 and #tabpages == 1
-end
-
-local function saveSession(session_opts)
-	session_opts = session_opts or {}
-	local filetype = string.lower(vim.bo.filetype)
-
-	if string.match(filetype, "commit") then
-		return
-	end
-
-	if not session_opts.force and not will_exit_nvim() then
-		return
-	end
-
-	local started_with_files = vim.fn.argc() > 0
-	local qf_open = is_qf_open()
-
-	local function do_save()
-		if qf_open and #vim.fn.getqflist() > 0 then
-			persistend_qfl.QfSave()
-		elseif not started_with_files then
-			persistend_qfl.QfDeletePersistentFile()
-		end
-		vim.cmd "AutoSession save"
-	end
-
-	if session_opts.immediate then
-		do_save()
-	else
-		vim.schedule(do_save)
-	end
-end
-
-vim.api.nvim_create_autocmd("QuitPre", {
-	callback = function()
-		saveSession { immediate = true }
-	end,
-})
 
 vim.keymap.set(
 	"n",
@@ -352,5 +286,9 @@ vim.api.nvim_create_user_command("RunShell", function(command)
 	end
 	run_shell(shell, cmd)
 end, { nargs = "+", desc = "Run <shell> -ic <cmd> and insert output" })
+
+vim.api.nvim_create_user_command("DateIso", function()
+	vim.cmd "RunShell bash date_iso"
+end, { desc = "Insert date_iso output" })
 
 -- vim: ts=2 sts=2 sw=2 et

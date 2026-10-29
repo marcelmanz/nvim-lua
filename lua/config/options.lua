@@ -28,6 +28,8 @@ vim.o.winbar = "%f" -- replaces dropbar.nvim
 vim.o.splitbelow = false
 vim.o.splitkeep = "screen"
 vim.o.splitright = true
+vim.o.sessionoptions =
+	"buffers,curdir,folds,help,tabpages,winsize,winpos,localoptions"
 vim.opt.guicursor = "i:hor20-Cursor/lCursor"
 
 vim.g.ai_cmp = false

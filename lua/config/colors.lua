@@ -2,7 +2,7 @@ vim.cmd.set "t_Co=256"
 
 local preferred = {
 	light = "modus-operandi",
-	dark = "github_dark_dimmed",
+	dark = "alabaster",
 }
 local fallback = {
 	light = "lunaperche",

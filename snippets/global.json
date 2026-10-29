@@ -2,5 +2,9 @@
   "Todo": {
     "prefix": "to",
     "body": "- [ ] "
+  },
+  "VimFiletype": {
+    "prefix": "vift",
+    "body": "# vi: ft=$1"
   }
 }
