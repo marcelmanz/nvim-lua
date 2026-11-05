@@ -88,11 +88,19 @@ local function RunFileTests()
 	elseif ext == "py" then
 		local project_root = vim.fn.getcwd()
 		local root_esc = vim.fn.shellescape(project_root)
-		local docker_cmd = "cd "
-			.. root_esc
-			.. " && docker build -f test.Dockerfile -t test-runner . && docker run --rm --env-file "
-			.. vim.fn.shellescape "ENV/test.env"
-			.. " test-runner python -m pytest -c ./pytest.ini"
+		local docker_cmd
+		if vim.fn.filereadable(project_root .. "/test.Dockerfile") == 1 then
+			docker_cmd = "cd "
+				.. root_esc
+				.. " && docker build -f test.Dockerfile -t test-runner . && docker run --rm --env-file "
+				.. vim.fn.shellescape "ENV/test.env"
+				.. " test-runner python -m pytest -c ./pytest.ini"
+		else
+			docker_cmd = "cd " .. root_esc .. " && direnv exec . python -m pytest"
+			if project_root:match "/vja$" and not vim.env.VJA_CONFIGDIR then
+				docker_cmd = docker_cmd .. " --noconftest"
+			end
+		end
 
 		if fname == "conftest.py" then
 			local dir = vim.fn.expand "%:p:h"
