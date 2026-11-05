@@ -21,6 +21,7 @@ require "features.incdec"
 require "features.vale-accept"
 require "features.diff"
 require "features.paste"
+require "features.claude"
 
 -- code runners
 require "features.runners.bash"
