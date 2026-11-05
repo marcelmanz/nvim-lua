@@ -38,6 +38,53 @@ vim.keymap.set("n", "<leader>cq", ConflictsQF)
 
 vim.api.nvim_create_user_command("ConflictsQF", ConflictsQF, {})
 
+local function ConflictSides()
+	local path = vim.api.nvim_buf_get_name(0)
+	local dir = vim.fn.fnamemodify(path, ":h")
+	local name = vim.fn.fnamemodify(path, ":t")
+	local ext = vim.fn.fnamemodify(path, ":e")
+
+	local function write_stage(stage, label)
+		local result = vim.system(
+			{ "git", "show", string.format(":%d:./%s", stage, name) },
+			{ cwd = dir, text = true }
+		):wait()
+		local file = string.format("%s-%s.%s", vim.fn.tempname(), label, ext)
+		local handle = assert(io.open(file, "w"))
+		handle:write(result.code == 0 and result.stdout or "")
+		handle:close()
+		return file, result.code == 0
+	end
+
+	local ours, has_ours = write_stage(2, "ours")
+	local theirs, has_theirs = write_stage(3, "theirs")
+	if not has_ours or not has_theirs then
+		vim.notify("No merge conflict stages for " .. name, vim.log.levels.WARN)
+		return
+	end
+	local base = write_stage(1, "base")
+
+	vim.cmd "tabnew"
+	vim.cmd(
+		"terminal omnidiff "
+			.. vim.fn.shellescape(base)
+			.. " "
+			.. vim.fn.shellescape(ours)
+	)
+	vim.cmd "belowright new"
+	vim.cmd(
+		"terminal omnidiff "
+			.. vim.fn.shellescape(base)
+			.. " "
+			.. vim.fn.shellescape(theirs)
+	)
+	vim.cmd "startinsert"
+end
+
+vim.keymap.set("n", "<leader>cs", ConflictSides)
+
+vim.api.nvim_create_user_command("ConflictSides", ConflictSides, {})
+
 vim.api.nvim_create_user_command("ENV", function()
 	-- Check if ./ENV directory exists
 	if vim.fn.isdirectory "./ENV" == 0 then
