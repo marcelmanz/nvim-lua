@@ -11,6 +11,7 @@ local state = {
 	mark_id = nil,
 	last_left_lines = nil,
 	last_right_lines = nil,
+	last_extension = "",
 }
 
 local function get_visual_lines()
@@ -42,7 +43,12 @@ local function get_split_direction()
 end
 
 local function create_temp_file(prefix, lines)
-	local filename = string.format("/tmp/nvim-diff-%s-%d", prefix, os.time())
+	local filename = string.format(
+		"/tmp/nvim-diff-%s-%d%s",
+		prefix,
+		os.time(),
+		state.last_extension
+	)
 	vim.fn.writefile(lines, filename)
 	return filename
 end
@@ -66,6 +72,8 @@ function M.operator_mark()
 	local bufnr, lines, start_line, end_line = get_visual_lines()
 	state.marked_lines = lines
 	state.marked_bufnr = bufnr
+	local extension = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(bufnr), ":e")
+	state.last_extension = extension ~= "" and "." .. extension or ""
 
 	state.mark_id =
 		vim.api.nvim_buf_set_extmark(bufnr, state.mark_ns, start_line, 0, {
@@ -103,9 +111,9 @@ function M.operator_compare()
 	local right_file = create_temp_file("right", right_lines)
 
 	local diff_cmd
-	if vim.fn.executable "difft" == 1 then
+	if vim.fn.executable "omnidiff" == 1 then
 		diff_cmd = string.format(
-			"difft --display=inline --context=10000 %s %s; rm %s %s",
+			"omnidiff %s %s; rm %s %s",
 			left_file,
 			right_file,
 			left_file,
@@ -152,9 +160,9 @@ function M.reopen_last_diff()
 	local right_file = create_temp_file("right", state.last_right_lines)
 
 	local diff_cmd
-	if vim.fn.executable "difft" == 1 then
+	if vim.fn.executable "omnidiff" == 1 then
 		diff_cmd = string.format(
-			"difft --display=inline --context=10000 %s %s; rm %s %s",
+			"omnidiff %s %s; rm %s %s",
 			left_file,
 			right_file,
 			left_file,
