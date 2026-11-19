@@ -6,7 +6,7 @@ if vim.g.neovide then
 	vim.g.neovide_cursor_trail_size = 0
 	vim.g.neovide_no_idle = true
 	vim.g.neovide_no_vsync = true
-	vim.g.neovide_opacity = 0.7
+	vim.g.neovide_opacity = 0.8
 	vim.g.neovide_padding_bottom = 0
 	vim.g.neovide_padding_left = 0
 	vim.g.neovide_padding_right = 0
